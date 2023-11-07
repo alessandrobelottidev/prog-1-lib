@@ -1,0 +1,3 @@
+/home/r3d4cted/CLionProjects/magic/cmake-build-debug/CMakeFiles/magic.dir
+/home/r3d4cted/CLionProjects/magic/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/r3d4cted/CLionProjects/magic/cmake-build-debug/CMakeFiles/rebuild_cache.dir
