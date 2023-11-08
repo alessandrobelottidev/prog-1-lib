@@ -15,8 +15,10 @@ namespace magic {
         const std::string ANSI_BLUE = "\033[34m";
 
         enum LogLevel { DEBUG, INFO, WARNING, ERROR };
+        
         void log(const std::string& message, LogLevel level = DEBUG);
-        void registerFunction(const std::string& functionName, std::function<void(const std::vector<std::string>&)> function);
+        void registerFunction(const std::string& functionName, 
+                              std::function<void(const std::vector<std::string>&)> function);
         void callFunctionByName(const std::string& functionName, const std::vector<std::string>& arguments);
         void logAndCall(const std::string& title,
                         const std::string& functionName,
@@ -31,7 +33,7 @@ namespace magic {
             int **data;
 
             Matrix(int rows, int cols); // Default constructor
-            Matrix(const Matrix &other); // Copy constructor for deep copy
+            Matrix(const Matrix &other); // Copy constructor for deep
             ~Matrix(); // Destructor to free memory
 
             Matrix& operator=(const Matrix &other); // Assignment operator for deep copy
@@ -39,15 +41,15 @@ namespace magic {
             void set(int row, int col, int value) const;
             int get(int row, int col) const;
 
-            __attribute__((unused)) __attribute__((unused)) bool isSquared() const;
+            bool isSquared() const;
             void print() const;
         };
 
         void transpose(Matrix& matrix);
-        // add
-        // subtract
-        // scalarProduct
-        // dotProduct
+        void sum(Matrix& matrix1, int value);
+        void sum(Matrix& matrix1, Matrix& matrix2);
+        void scalarProduct(Matrix& matrix1, int value);
+        void dotProduct(Matrix& matrix1, Matrix& matrix2);
     }
 }
 

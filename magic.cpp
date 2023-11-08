@@ -45,11 +45,10 @@ namespace magic {
         }
 
         void callFunctionByName(const std::string& functionName, const std::vector<std::string>& arguments) {
-            if (functionRegistry.find(functionName) != functionRegistry.end()) {
+            if (functionRegistry.find(functionName) != functionRegistry.end())
                 functionRegistry[functionName](arguments);
-            } else {
+            else
                 log("Function not found: " + functionName, ERROR);
-            }
         }
 
         void logAndCall(const std::string& title,
@@ -65,9 +64,8 @@ namespace magic {
     namespace matrix {
         Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
             data = new int *[rows];
-            for (int i = 0; i < rows; i++) {
+            for (int i = 0; i < rows; i++)
                 data[i] = new int[cols];
-            }
         }
 
         Matrix::Matrix(const Matrix &other) : rows(other.rows), cols(other.cols) {
@@ -110,21 +108,19 @@ namespace magic {
         }
 
         void Matrix::set(int row, int col, int value) const {
-            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            if (row >= 0 && row < rows && col >= 0 && col < cols)
                 data[row][col] = value;
-            }
         }
 
         int Matrix::get(int row, int col) const {
-            if (row >= 0 && row < rows && col >= 0 && col < cols) {
+            if (row >= 0 && row < rows && col >= 0 && col < cols)
                 return data[row][col];
-            } else {
+            else
                 // Return a default value or handle the error as needed
                 throw std::runtime_error("Couldn't get a value at this position row:" + std::to_string(row) + ", col:" + std::to_string(col));
-            }
         }
 
-        __attribute__((unused)) bool Matrix::isSquared() const {
+        bool Matrix::isSquared() const {
             return rows == cols;
         }
 
@@ -146,6 +142,38 @@ namespace magic {
                     transposed.set(j, i, matrix.get(i, j));
 
             matrix = transposed;
+        }
+
+        void sum(Matrix &matrix1, int value) {
+            for (int i = 0; i < matrix1.rows; ++i)
+                for (int j = 0; j < matrix1.cols; ++j)
+                    matrix1.set(i, j, matrix1.get(i, j) + value);
+        }
+
+        void sum(Matrix &matrix1, Matrix &matrix2) {
+            for (int i = 0; i < matrix1.rows; ++i)
+                for (int j = 0; j < matrix1.cols; ++j)
+                    matrix1.set(i, j, matrix1.get(i, j) + matrix2.get(i, j));
+        }
+
+        void scalarProduct(Matrix &matrix1, int value) {
+            for (int i = 0; i < matrix1.rows; ++i)
+                for (int j = 0; j < matrix1.cols; ++j)
+                    matrix1.set(i, j, matrix1.get(i, j) * value);
+        }
+
+        void dotProduct(Matrix &matrix1, Matrix &matrix2) {
+            if (matrix1.cols != matrix2.rows)
+                throw std::runtime_error("Matrix dimensions don't match for dot product");
+
+            Matrix result(matrix1.rows, matrix2.cols);
+
+            for (int i = 0; i < matrix1.rows; ++i)
+                for (int j = 0; j < matrix2.cols; ++j)
+                    for (int k = 0; k < matrix1.cols; ++k)
+                        result.set(i, j, result.get(i, j) + matrix1.get(i, k) * matrix2.get(k, j));
+
+            matrix1 = result;
         }
     }
 }
