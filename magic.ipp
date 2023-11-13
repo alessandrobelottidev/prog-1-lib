@@ -1,5 +1,3 @@
-#include "magic.hpp"
-
 #include <iostream>
 #include <map>
 #include <utility>
@@ -59,40 +57,55 @@ namespace magic {
             registerFunction(functionName, std::move(function));
             callFunctionByName(functionName, arguments);
         }
+
+        void logBlock(const std::string& title, const std::function<void()>& codeBlock) {
+            std::string top = "====================[ start: " + manipulation::toUpperCase(title) + " ]====================";
+            log(top,INFO);
+
+            codeBlock();
+
+            std::string bottom = "=====================[ end: " + manipulation::toUpperCase(title) + " ]=====================\n\n";
+            log(bottom, INFO);
+        }
     }
 
     namespace matrix {
-        Matrix::Matrix(int rows, int cols) : rows(rows), cols(cols) {
-            data = new int *[rows];
+        template <typename T>
+        Matrix<T>::Matrix(int rows, int cols) : rows(rows), cols(cols) {
+            data = new T *[rows];
             for (int i = 0; i < rows; i++) {
-                data[i] = new int[cols];
+                data[i] = new T[cols];
                 for (int j = 0; j < cols; j++)
                     data[i][j] = 0;
             }
         }
 
-        Matrix::Matrix(int rows, int cols, int **data) {
+        template <typename T>
+        Matrix<T>::Matrix(int rows, int cols, T **data) {
             this->rows = rows;
             this->cols = cols;
             this->data = data;
         }
 
-        Matrix::Matrix(const Matrix &other) : rows(other.rows), cols(other.cols) {
-            data = new int *[rows];
+        template <typename T>
+        Matrix<T>::Matrix(const Matrix<T> &other) : rows(other.rows), cols(other.cols) {
+            data = new T *[rows];
             for (int i = 0; i < rows; i++) {
-                data[i] = new int[cols];
+                data[i] = new T[cols];
                 for (int j = 0; j < cols; j++)
                     data[i][j] = other.data[i][j];
             }
         }
 
-        Matrix::~Matrix() {
+        template <typename T>
+        Matrix<T>::~Matrix() {
             for (int i = 0; i < rows; i++)
                 delete[] data[i];
             delete[] data;
         }
 
-        Matrix &Matrix::operator=(const Matrix &other) {
+        template <typename T>
+        Matrix<T> &Matrix<T>::operator=(const Matrix<T> &other) {
             if (this == &other)
                 return *this; // Self-assignment check
 
@@ -104,9 +117,9 @@ namespace magic {
             // Copy data from 'other' to this
             rows = other.rows;
             cols = other.cols;
-            data = new int *[rows];
+            data = new T *[rows];
             for (int i = 0; i < rows; i++) {
-                data[i] = new int[cols];
+                data[i] = new T[cols];
                 for (int j = 0; j < cols; j++)
                     data[i][j] = other.data[i][j];
             }
@@ -114,12 +127,16 @@ namespace magic {
             return *this;
         }
 
-        void Matrix::set(int row, int col, int value) const {
+        template <typename T>
+        void Matrix<T>::set(int row, int col, T value) const {
             if (row >= 0 && row < rows && col >= 0 && col < cols)
                 data[row][col] = value;
+            else
+                throw std::runtime_error("Couldn't set a value at this position row:" + std::to_string(row) + ", col:" + std::to_string(col));
         }
 
-        int Matrix::get(int row, int col) const {
+        template <typename T>
+        T Matrix<T>::get(int row, int col) const {
             if (row >= 0 && row < rows && col >= 0 && col < cols)
                 return data[row][col];
             else
@@ -127,86 +144,99 @@ namespace magic {
                 throw std::runtime_error("Couldn't get a value at this position row:" + std::to_string(row) + ", col:" + std::to_string(col));
         }
 
-        bool Matrix::isSquared() const {
+        template <typename T>
+        bool Matrix<T>::isSquared() const {
             return rows == cols;
         }
 
-        void Matrix::print() const {
+        template <typename T>
+        void Matrix<T>::print(bool lastSepIncluded) const {
             for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++)
-                    std::cout << data[i][j] << " ";
+                for (int j = 0; j < cols; j++) {
+                    if (j == cols - 1 && !lastSepIncluded)
+                        std::cout << data[i][j];
+                    else
+                        std::cout << data[i][j] << " ";
+                }
                 std::cout << std::endl;
             }
         }
 
-        void transpose(Matrix& matrix) {
-            int newRows = matrix.cols;
-            int newCols = matrix.rows;
-            Matrix transposed(newRows, newCols);
+        template <typename T>
+        void transpose(Matrix<T>& m) {
+            int newRows = m.cols;
+            int newCols = m.rows;
+            Matrix<T> transposed(newRows, newCols);
 
-            for (int i = 0; i < matrix.rows; ++i)
-                for (int j = 0; j < matrix.cols; ++j)
-                    transposed.set(j, i, matrix.get(i, j));
+            for (int i = 0; i < m.rows; ++i)
+                for (int j = 0; j < m.cols; ++j)
+                    transposed.set(j, i, m.get(i, j));
 
-            matrix = transposed;
+            m = transposed;
         }
 
-        void sum(Matrix &matrix1, int value) {
-            for (int i = 0; i < matrix1.rows; ++i)
-                for (int j = 0; j < matrix1.cols; ++j)
-                    matrix1.set(i, j, matrix1.get(i, j) + value);
+        template <typename T>
+        void sum(Matrix<T>& m, T value) {
+            for (int i = 0; i < m.rows; ++i)
+                for (int j = 0; j < m.cols; ++j)
+                    m.set(i, j, m.get(i, j) + value);
         }
 
-        void sum(Matrix &matrix1, Matrix &matrix2) {
-            for (int i = 0; i < matrix1.rows; ++i)
-                for (int j = 0; j < matrix1.cols; ++j)
-                    matrix1.set(i, j, matrix1.get(i, j) + matrix2.get(i, j));
+        template <typename T>
+        void sum(Matrix<T>& m1, Matrix<T>& m2) {
+            for (int i = 0; i < m1.rows; ++i)
+                for (int j = 0; j < m1.cols; ++j)
+                    m1.set(i, j, m1.get(i, j) + m2.get(i, j));
         }
 
-        void subtract(Matrix &matrix1, Matrix &matrix2) {
-            for (int i = 0; i < matrix1.rows; ++i)
-                for (int j = 0; j < matrix1.cols; ++j)
-                    matrix1.set(i, j, matrix1.get(i, j) - matrix2.get(i, j));
+        template <typename T>
+        void subtract(Matrix<T>& m1, Matrix<T>& m2) {
+            for (int i = 0; i < m1.rows; ++i)
+                for (int j = 0; j < m1.cols; ++j)
+                    m1.set(i, j, m1.get(i, j) - m2.get(i, j));
         }
 
-        void scalarProduct(Matrix &matrix1, int value) {
-            for (int i = 0; i < matrix1.rows; ++i)
-                for (int j = 0; j < matrix1.cols; ++j)
-                    matrix1.set(i, j, matrix1.get(i, j) * value);
+        template <typename T>
+        void scalarProduct(Matrix<T>& m, T value) {
+            for (int i = 0; i < m.rows; ++i)
+                for (int j = 0; j < m.cols; ++j)
+                    m.set(i, j, m.get(i, j) * value);
         }
 
-        Matrix dotProduct(Matrix &matrix1, Matrix &matrix2) {
-            if (matrix1.cols != matrix2.rows)
+        template <typename T>
+        Matrix<T> dotProduct(Matrix<T>& m1, Matrix<T>& m2) {
+            if (m1.cols != m2.rows)
                 throw std::runtime_error("Matrix dimensions don't match for dot product");
 
-            Matrix result(matrix1.rows, matrix2.cols);
+            Matrix<T> result(m1.rows, m2.cols);
 
-            for (int i = 0; i < matrix1.rows; ++i)
-                for (int j = 0; j < matrix2.cols; ++j)
-                    for (int k = 0; k < matrix1.cols; ++k)
-                        result.set(i, j, result.get(i, j) + matrix1.get(i, k) * matrix2.get(k, j));
+            for (int i = 0; i < m1.rows; ++i)
+                for (int j = 0; j < m2.cols; ++j)
+                    for (int k = 0; k < m1.cols; ++k)
+                        result.set(i, j, result.get(i, j) + m1.get(i, k) * m2.get(k, j));
 
             return result;
         }
 
-        int determinant(Matrix& matrix) {
-            if (!matrix.isSquared())
+        template <typename T>
+        int determinant(Matrix<T>& m) {
+            if (!m.isSquared())
                 throw std::runtime_error("Matrix is not squared");
 
-            if (matrix.rows == 1)
-                return matrix.get(0, 0);
+            if (m.rows == 1)
+                return m.get(0, 0);
 
-            if (matrix.rows == 2)
-                return matrix.get(0, 0) * matrix.get(1, 1) - matrix.get(0, 1) * matrix.get(1, 0);
+            if (m.rows == 2)
+                return m.get(0, 0) * m.get(1, 1) - m.get(0, 1) * m.get(1, 0);
 
             int finalX = 0;
             int finalY = 0;
-            for(int i = 0; i < matrix.rows; i++) {
+            for(int i = 0; i < m.rows; i++) {
                 int x = 1;
                 int y = 1;
-                for (int j=0; j < matrix.rows; j++) {
-                    x *= matrix.get(j, (i+j) % matrix.rows);
-                    y *= matrix.get(matrix.rows - 1 - j, (i+j) % matrix.rows);
+                for (int j=0; j < m.rows; j++) {
+                    x *= m.get(j, (i+j) % m.rows);
+                    y *= m.get(m.rows - 1 - j, (i+j) % m.rows);
                 }
                 finalX += x;
                 finalY += y;
@@ -216,14 +246,18 @@ namespace magic {
             return det;
         }
 
-        Matrix inverse(const Matrix &m) {
+        template <typename T>
+        Matrix<T> inverse(Matrix<T>& m) {
             if (!m.isSquared())
                 throw std::runtime_error("Matrix is not squared");
+
+            if (determinant(m) == 0)
+                throw std::runtime_error("Matrix is not invertible");
 
             int n = m.rows;
 
             // Creating a temporary array to hold the expanded array [m | I]
-            Matrix augmentedMatrix(n, 2 * n);
+            Matrix<T> augmentedMatrix(n, 2 * n);
 
             // Initialize the expanded matrix with the original matrix followed by the identity matrix
             for (int i = 0; i < n; ++i)
@@ -259,7 +293,7 @@ namespace magic {
             }
 
             // Extract the right part of the enlarged matrix, which should be the inverse matrix
-            Matrix inverseMatrix(n, n);
+            Matrix<T> inverseMatrix(n, n);
             for (int i = 0; i < n; ++i)
                 for (int j = 0; j < n; ++j)
                     inverseMatrix.set(i, j, augmentedMatrix.get(i, j + n));

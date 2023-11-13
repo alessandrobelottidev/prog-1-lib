@@ -55,12 +55,6 @@ build CMakeFiles/magic.dir/main.cpp.o: CXX_COMPILER__magic_unscanned_Debug /home
   OBJECT_DIR = CMakeFiles/magic.dir
   OBJECT_FILE_DIR = CMakeFiles/magic.dir
 
-build CMakeFiles/magic.dir/magic.cpp.o: CXX_COMPILER__magic_unscanned_Debug /home/r3d4cted/CLionProjects/magic/magic.cpp || cmake_object_order_depends_target_magic
-  DEP_FILE = CMakeFiles/magic.dir/magic.cpp.o.d
-  FLAGS = -g -std=gnu++11 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/magic.dir
-  OBJECT_FILE_DIR = CMakeFiles/magic.dir
-
 
 # =============================================================================
 # Link build statements for EXECUTABLE target magic
@@ -69,7 +63,7 @@ build CMakeFiles/magic.dir/magic.cpp.o: CXX_COMPILER__magic_unscanned_Debug /hom
 #############################################
 # Link the executable magic
 
-build magic: CXX_EXECUTABLE_LINKER__magic_Debug CMakeFiles/magic.dir/main.cpp.o CMakeFiles/magic.dir/magic.cpp.o
+build magic: CXX_EXECUTABLE_LINKER__magic_Debug CMakeFiles/magic.dir/main.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/magic.dir
   POST_BUILD = :

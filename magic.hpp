@@ -24,37 +24,69 @@ namespace magic {
                         const std::string& functionName,
                         std::function<void(const std::vector<std::string>&)> function,
                         const std::vector<std::string>& arguments);
+        void logBlock(const std::string& title, const std::function<void()>& codeBlock);
+    }
+
+    namespace manipulation {
+        std::string toUpperCase(const std::string& str, const std::locale& loc = std::locale()) {
+            std::string result = str;
+
+            for (char& c : result)
+                c = std::toupper(c, loc);
+
+            return result;
+        }
     }
 
     namespace matrix {
+        template <typename T>
         struct Matrix {
-            int rows;
-            int cols;
-            int **data;
+            static_assert(std::is_arithmetic<T>::value, "Matrix can only be instantiated with arithmetic types");
+
+            int rows{};
+            int cols{};
+            T** data;
 
             Matrix(int rows, int cols); // Default constructor
-            Matrix(int rows, int cols, int **data); // Constructor with data
-            Matrix(const Matrix &other); // Copy constructor for deep
+            Matrix(int rows, int cols, T **data); // Constructor with data
+            Matrix(const Matrix<T> &other); // Copy constructor for deep
             ~Matrix(); // Destructor to free memory
 
-            Matrix& operator=(const Matrix &other); // Assignment operator for deep copy
+            Matrix<T>& operator=(const Matrix<T> &other); // Assignment operator for deep copy
 
-            void set(int row, int col, int value) const;
-            int get(int row, int col) const;
+            void set(int row, int col, T value) const;
+            T get(int row, int col) const;
 
             bool isSquared() const;
-            void print() const;
+            void print(bool lastSepIncluded = false) const;
         };
 
-        void transpose(Matrix& matrix);
-        void sum(Matrix& matrix1, int value);
-        void sum(Matrix& matrix1, Matrix& matrix2);
-        void subtract(Matrix& matrix1, Matrix& matrix2);
-        void scalarProduct(Matrix& matrix1, int value);
-        Matrix dotProduct(Matrix& matrix1, Matrix& matrix2);
-        int determinant(Matrix& matrix);
-        Matrix inverse(const Matrix &m);
+        template <typename T>
+        void transpose(Matrix<T>& m);
+
+        template <typename T>
+        void sum(Matrix<T>& m1, T value);
+
+        template <typename T>
+        void sum(Matrix<T>& m1, Matrix<T>& m2);
+
+        template <typename T>
+        void subtract(Matrix<T>& m1, Matrix<T>& m2);
+
+        template <typename T>
+        void scalarProduct(Matrix<T>& m, T value);
+
+        template <typename T>
+        Matrix<T> dotProduct(Matrix<T>& m1, Matrix<T>& m2);
+
+        template <typename T>
+        int determinant(Matrix<T>& m);
+
+        template <typename T>
+        Matrix<T> inverse(Matrix<T>& m);
     }
 }
+
+#include "magic.ipp"
 
 #endif

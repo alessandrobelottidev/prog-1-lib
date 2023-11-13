@@ -4,5 +4,5 @@ project(magic)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(magic main.cpp
-        magic.cpp
+        magic.ipp
         magic.hpp)
