@@ -33,6 +33,7 @@ namespace magic {
             int **data;
 
             Matrix(int rows, int cols); // Default constructor
+            Matrix(int rows, int cols, int **data); // Constructor with data
             Matrix(const Matrix &other); // Copy constructor for deep
             ~Matrix(); // Destructor to free memory
 
@@ -48,8 +49,11 @@ namespace magic {
         void transpose(Matrix& matrix);
         void sum(Matrix& matrix1, int value);
         void sum(Matrix& matrix1, Matrix& matrix2);
+        void subtract(Matrix& matrix1, Matrix& matrix2);
         void scalarProduct(Matrix& matrix1, int value);
-        void dotProduct(Matrix& matrix1, Matrix& matrix2);
+        Matrix dotProduct(Matrix& matrix1, Matrix& matrix2);
+        int determinant(Matrix& matrix);
+        Matrix inverse(const Matrix &m);
     }
 }
 
