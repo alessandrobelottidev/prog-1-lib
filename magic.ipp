@@ -59,13 +59,181 @@ namespace magic {
         }
 
         void logBlock(const std::string& title, const std::function<void()>& codeBlock) {
-            std::string top = "====================[ start: " + manipulation::toUpperCase(title) + " ]====================";
+            std::string top = "====================[ start: " + strOp::toUpperCase(title) + " ]====================";
             log(top,INFO);
 
             codeBlock();
 
-            std::string bottom = "=====================[ end: " + manipulation::toUpperCase(title) + " ]=====================\n\n";
+            std::string bottom = "=====================[ end: " + strOp::toUpperCase(title) + " ]=====================\n\n";
             log(bottom, INFO);
+        }
+    }
+
+    namespace strOp {
+        std::string toUpperCase(const std::string& str, const std::locale& loc) {
+            std::string result = str;
+
+            for (char& c : result)
+                c = std::toupper(c, loc);
+
+            return result;
+        }
+
+        std::string toLowerCase(const std::string& str, const std::locale& loc) {
+            std::string result = str;
+
+            for (char& c : result)
+                c = std::tolower(c, loc);
+
+            return result;
+        }
+
+        std::string trim(const std::string& str) {
+            std::string result = str;
+            result.erase(0, result.find_first_not_of(' '));
+            result.erase(result.find_last_not_of(' ') + 1);
+            return result;
+        }
+
+        std::string trimLeft(const std::string& str) {
+            std::string result = str;
+            result.erase(0, result.find_first_not_of(' '));
+            return result;
+        }
+
+        std::string trimRight(const std::string& str) {
+            std::string result = str;
+            result.erase(result.find_last_not_of(' ') + 1);
+            return result;
+        }
+
+        std::vector<std::string> split(const std::string& str, const std::string& delimiter) {
+            std::vector<std::string> result;
+            std::string s = str;
+            size_t pos;
+            std::string token;
+
+            while ((pos = s.find(delimiter)) != std::string::npos) {
+                token = s.substr(0, pos);
+                result.push_back(token);
+                s.erase(0, pos + delimiter.length());
+            }
+
+            result.push_back(s);
+            return result;
+        }
+
+        std::string join(const std::vector<std::string>& strings, const std::string& delimiter) {
+            std::string result;
+            for (int i = 0; i < strings.size(); ++i) {
+                result += strings[i];
+                if (i != strings.size() - 1)
+                    result += delimiter;
+            }
+            return result;
+        }
+
+        std::string substring(const std::string& str, int start, int end) {
+            std::string result;
+            for (int i = start; i < end; ++i)
+                result += str[i];
+            return result;
+        }
+
+        std::string replaceOnce(const std::string& str, const std::string& from, const std::string& to) {
+            std::string result = str;
+            size_t start_pos = result.find(from);
+            if (start_pos != std::string::npos)
+                result.replace(start_pos, from.length(), to);
+            return result;
+        }
+
+        std::string replaceAll(const std::string& str, const std::string& from, const std::string& to) {
+            std::string result = str;
+            size_t start_pos = result.find(from);
+            while (start_pos != std::string::npos) {
+                result.replace(start_pos, from.length(), to);
+                start_pos = result.find(from, start_pos + to.length());
+            }
+            return result;
+        }
+
+        std::string replaceAllInBetween(const std::string& str, const std::string& from, const std::string& to,
+                                        int start, int end) {
+            if (start < 0 || end > str.length())
+                throw std::runtime_error("Invalid start or end index");
+
+            std::string result = str;
+            size_t start_pos = result.find(from, start);
+            while (start_pos != std::string::npos && start_pos < end) {
+                result.replace(start_pos, from.length(), to);
+                start_pos = result.find(from, start_pos + to.length());
+            }
+            return result;
+        }
+
+        bool equalsIgnoreCase(const std::string& str1, const std::string& str2) {
+            return toLowerCase(str1) == toLowerCase(str2);
+        }
+
+        bool startsWith(const std::string& str, const std::string& prefix) {
+            return str.find(prefix) == 0;
+        }
+
+        bool endsWith(const std::string& str, const std::string& suffix) {
+            return str.rfind(suffix) == (str.length() - suffix.length());
+        }
+
+        bool contains(const std::string& str, const std::string& substr) {
+            return str.find(substr) != std::string::npos;
+        }
+
+        std::string repeat(const std::string& str, int times) {
+            std::string result;
+            for (int i = 0; i < times; ++i)
+                result += str;
+            return result;
+        }
+
+        std::string padLeft(const std::string& str, int width, char paddingChar) {
+            std::string result = str;
+            if (result.length() < width)
+                result = repeat(std::string(1, paddingChar), width - result.length()) + result;
+            return result;
+        }
+
+        std::string padRight(const std::string& str, int width, char paddingChar) {
+            std::string result = str;
+            if (result.length() < width)
+                result = result + repeat(std::string(1, paddingChar), width - result.length());
+            return result;
+        }
+
+        std::string padCenter(const std::string& str, int width, char paddingChar) {
+            std::string result = str;
+            if (result.length() < width) {
+                unsigned long leftPadding = (width - result.length()) / 2;
+                unsigned long rightPadding = width - result.length() - leftPadding;
+                result = repeat(std::string(1, paddingChar), (int) leftPadding) + result +
+                        repeat(std::string(1, paddingChar), (int)rightPadding);
+            }
+            return result;
+        }
+
+        int countOccurrences(const std::string& str, char target) {
+            int count = 0;
+            for (char c : str)
+                if (c == target)
+                    count++;
+            return count;
+        }
+
+        std::string removeAllOccurrences(const std::string& str, char target) {
+            std::string result = str;
+            for (int i = 0; i < result.length(); ++i)
+                if (result[i] == target)
+                    result.erase(i--, 1);
+            return result;
         }
     }
 

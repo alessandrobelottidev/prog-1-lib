@@ -10,9 +10,36 @@ void exampleFunction(const vector<string>& args) {
 }
 
 int main() {
-    // Example usage of logAndCall
-    // vector<string> args = { "arg1", "arg2" };
-    // debug::logAndCall("Calling Function:", "exampleFunction", exampleFunction, args);
+    debug::logBlock("Example of logBlock", []{
+        debug::log("This is a log message inside a logBlock", debug::DEBUG);
+    });
+
+    debug::logBlock("Example usage of logAndCall", [] {
+        debug::logAndCall("Calling Function:", "exampleFunction", exampleFunction, vector<string>{ "arg1", "arg2" });
+    });
+
+    debug::logBlock("Operations on strings", []{
+        debug::log("To upper case: " + strOp::toUpperCase("Hello World!"), debug::DEBUG);
+        debug::log("To lower case: " + strOp::toLowerCase("Hello World!"), debug::DEBUG);
+        debug::log("Trim: " + strOp::trim("   Hello World!   "), debug::DEBUG);
+        debug::log("Trim left: " + strOp::trimLeft("   Hello World!   "), debug::DEBUG);
+        debug::log("Trim right: " + strOp::trimRight("   Hello World!   "), debug::DEBUG);
+        debug::log("Split: " + strOp::join(strOp::split("Hello World!", " "), ", "), debug::DEBUG);
+        debug::log("Substring: " + strOp::substring("Hello World!", 6, 11), debug::DEBUG);
+        debug::log("Replace: " + strOp::replaceOnce("Hello World World!", "World", "Universe"), debug::DEBUG);
+        debug::log("Replace all: " + strOp::replaceAll("Hello World World!", "World", "Universe"), debug::DEBUG);
+        debug::log("Replace all in between 6 and 11: " + strOp::replaceAllInBetween("Hello World World!","World", "Universe", 6, 11), debug::DEBUG);
+        debug::log("Equals ignore case: " + to_string(strOp::equalsIgnoreCase("Hello World!", "hello world!")), debug::DEBUG);
+        debug::log("Starts with: " + to_string(strOp::startsWith("Hello World!", "Hello")), debug::DEBUG);
+        debug::log("Ends with: " + to_string(strOp::endsWith("Hello World!", "World!")), debug::DEBUG);
+        debug::log("Contains: " + to_string(strOp::contains("Hello World!", "World")), debug::DEBUG);
+        debug::log("Repeat: " + strOp::repeat("Hello World! ", 3), debug::DEBUG);
+        debug::log("Pad left: " + strOp::padLeft("Hello World!", 20, '*'), debug::DEBUG);
+        debug::log("Pad right: " + strOp::padRight("Hello World!", 20, '*'), debug::DEBUG);
+        debug::log("Pad center: " + strOp::padCenter("Hello World!", 20, '*'), debug::DEBUG);
+        debug::log("Count occurrences: " + to_string(strOp::countOccurrences("Hello World!", 'o')), debug::DEBUG);
+        debug::log("Remove all occurrences: " + strOp::removeAllOccurrences("Hello World!", 'o'), debug::DEBUG);
+    });
 
 
     // Example print matrix
@@ -22,7 +49,7 @@ int main() {
 
         for (int i = 0; i < myMatrix.rows; ++i)
             for (int j = 0; j < myMatrix.cols; ++j)
-                myMatrix.set(i,j, i * myMatrix.cols + j);
+                myMatrix.set(i,j, (float) (i * myMatrix.cols + j));
 
         myMatrix.print();
 

@@ -1,7 +1,7 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <string>
+#include <cstring>
 #include <functional>
 #include <vector>
 
@@ -27,15 +27,29 @@ namespace magic {
         void logBlock(const std::string& title, const std::function<void()>& codeBlock);
     }
 
-    namespace manipulation {
-        std::string toUpperCase(const std::string& str, const std::locale& loc = std::locale()) {
-            std::string result = str;
-
-            for (char& c : result)
-                c = std::toupper(c, loc);
-
-            return result;
-        }
+    namespace strOp {
+        std::string toUpperCase(const std::string& str, const std::locale& loc = std::locale());
+        std::string toLowerCase(const std::string& str, const std::locale& loc = std::locale());
+        std::string trim(const std::string& str);
+        std::string trimLeft(const std::string& str);
+        std::string trimRight(const std::string& str);
+        std::vector<std::string> split(const std::string& str, const std::string& delimiter = " ");
+        std::string join(const std::vector<std::string>& strings, const std::string& delimiter = " ");
+        std::string substring(const std::string& str, int start, int end);
+        std::string replaceOnce(const std::string& str, const std::string& from, const std::string& to);
+        std::string replaceAll(const std::string& str, const std::string& from, const std::string& to);
+        std::string replaceAllInBetween(const std::string& str, const std::string& from, const std::string& to,
+                                        int start, int end);
+        bool equalsIgnoreCase(const std::string& str1, const std::string& str2);
+        bool startsWith(const std::string& str, const std::string& prefix);
+        bool endsWith(const std::string& str, const std::string& suffix);
+        bool contains(const std::string& str, const std::string& substr);
+        std::string repeat(const std::string& str, int times);
+        std::string padLeft(const std::string& str, int width, char paddingChar = ' ');
+        std::string padRight(const std::string& str, int width, char paddingChar = ' ');
+        std::string padCenter(const std::string& str, int width, char paddingChar = ' ');
+        int countOccurrences(const std::string& str, char target);
+        std::string removeAllOccurrences(const std::string& str, char target);
     }
 
     namespace matrix {
