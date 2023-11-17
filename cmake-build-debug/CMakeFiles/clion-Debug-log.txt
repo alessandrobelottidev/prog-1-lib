@@ -1,4 +1,0 @@
-/home/r3d4cted/Downloads/clion/clion-2023.2.2/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/r3d4cted/Downloads/clion/clion-2023.2.2/bin/ninja/linux/x64/ninja -G Ninja -S /home/r3d4cted/CLionProjects/magic -B /home/r3d4cted/CLionProjects/magic/cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /home/r3d4cted/CLionProjects/magic/cmake-build-debug
