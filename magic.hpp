@@ -169,7 +169,7 @@ namespace magic {
         retval enqueue(T el, struct_queue<T> & q);
 
         template <typename T>
-        retval first(T & el, const struct_queue<T> & q);
+        retval front(T & el, const struct_queue<T> & q);
 
         template <typename T>
         retval dequeue(struct_queue<T> & q);
