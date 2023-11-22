@@ -27,6 +27,19 @@ namespace magic {
         void logBlock(const std::string& title, const std::function<void()>& codeBlock);
     }
 
+    namespace io {
+        template <typename T>
+        T read(std::istream& input = std::cin,
+               const std::string& prompt = "Enter a value: ",
+               const std::string& errorMessage = "Invalid input",
+               const std::function<bool(const T&)>& validate = [](const T&) { return true; });
+
+        int showMenu(const std::string& title, const std::string& prompt, const std::vector<std::string>& options,
+                     std::istream& input = std::cin);
+
+        void clearScreen();
+    }
+
     namespace strOp {
         std::string toUpperCase(const std::string& str, const std::locale& loc = std::locale());
         std::string toLowerCase(const std::string& str, const std::locale& loc = std::locale());
@@ -98,6 +111,78 @@ namespace magic {
 
         template <typename T>
         Matrix<T> inverse(Matrix<T>& m);
+    }
+
+    namespace ds {
+        enum retval {FAIL,OK};
+
+        template <typename T>
+        struct node {
+            T val;
+            node *next;
+        };
+
+        /** start: STRUCT STACK **/
+        template <typename T>
+        using struct_stack = node<T>*;
+
+        template <typename T>
+        void init(struct_stack<T> & stack);
+
+        template <typename T>
+        void deinit(struct_stack<T> & stack);
+
+        template <typename T>
+        retval push(T el, struct_stack<T> & stack);
+
+        template <typename T>
+        retval top(T &el, const struct_stack<T> & stack);
+
+        template <typename T>
+        retval pop(struct_stack<T> & stack);
+
+        template <typename T>
+        int size(const struct_stack<T> & stack);
+
+        template <typename T>
+        void print(const struct_stack<T> & stack);
+
+        template <typename T>
+        void printBeautified(const struct_stack<T> & stack);
+        /** end: STRUCT STACK **/
+
+        /** start: STRUCT QUEUE **/
+        template <typename T>
+        struct struct_queue
+        {
+            node<T> * tail;
+            node<T> * head;
+        };
+
+        template <typename T>
+        void init(struct_queue<T> & q);
+
+        template <typename T>
+        void deinit(struct_queue<T> & q);
+
+        template <typename T>
+        retval enqueue(T el, struct_queue<T> & q);
+
+        template <typename T>
+        retval first(T & el, const struct_queue<T> & q);
+
+        template <typename T>
+        retval dequeue(struct_queue<T> & q);
+
+        template <typename T>
+        int size(const struct_queue<T> & q);
+
+        template <typename T>
+        void print(const struct_queue<T> & q);
+
+        template <typename T>
+        void printBeautified(const struct_queue<T> & q);
+        /** end: STRUCT QUEUE **/
     }
 }
 

@@ -2,6 +2,21 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <limits>
+#include <iomanip>
+
+// Type trait to check if a type is a standard type
+template <typename T>
+struct is_standard_type {
+    static constexpr bool value =
+            std::is_integral<T>::value ||
+            std::is_floating_point<T>::value ||
+            std::is_same<T, std::string>::value ||
+            std::is_same<T, char>::value ||
+            std::is_same<T, wchar_t>::value ||
+            std::is_same<T, char16_t>::value ||
+            std::is_same<T, char32_t>::value;
+};
 
 namespace magic {
     namespace debug {
@@ -66,6 +81,76 @@ namespace magic {
 
             std::string bottom = "=====================[ end: " + strOp::toUpperCase(title) + " ]=====================\n\n";
             log(bottom, INFO);
+        }
+    }
+
+    namespace io {
+        template <typename T>
+        T read(std::istream& input,
+               const std::string& prompt,
+               const std::string& errorMessage,
+               const std::function<bool(const T&)>& validate) {
+            static_assert(is_standard_type<T>::value, "Non-standard type used in read function. Use standard types only.");
+
+            T value;
+            bool isValid;
+
+            do {
+                std::cout << prompt;
+
+                input >> value;
+
+                isValid = false;
+
+                if (input.fail()) {
+                    debug::log("Error reading input", debug::ERROR);
+                    // Clear input stream and ignore any invalid input
+                    input.clear();
+                    input.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                } else {
+                    isValid = validate(value);
+                    if (!isValid) {
+                        debug::log(errorMessage, debug::ERROR);
+                    }
+                }
+            } while (!isValid);
+
+            return value;
+        }
+
+        int showMenu(const std::string& title, const std::string& prompt, const std::vector<std::string>& options,
+                     std::istream& input) {
+            std::cout << title << std::endl;
+            for (int i = 0; i < options.size(); ++i)
+                std::cout << i + 1 << ". " << options[i] << std::endl;
+
+            int option;
+            bool confirmed;
+
+            do {
+                option = read<int>(input, prompt, "Invalid option",
+                                   [options](const int &option) { return option >= 1 && option <= options.size(); }
+                );
+
+                confirmed = read<char>(
+                        input,
+                        "Are you sure? (y/n): ",
+                        "Invalid input",
+                        [](const char& c) {
+                            return c == 'y' || c == 'n';
+                        }) == 'y';
+            } while (!confirmed);
+
+            return option;
+        }
+
+        void clearScreen() {
+#ifdef _WIN32
+            std::system("cls");
+#else
+            std::cout << "\033[2J\033[1;1H"; // ANSI escape codes for clearing the screen
+            //std::system("clear");
+#endif
         }
     }
 
@@ -468,5 +553,212 @@ namespace magic {
 
             return inverseMatrix;
         }
+    }
+
+    namespace ds {
+        /** start: STRUCT STACK **/
+        template <typename T>
+        static bool emptyp (const struct_stack<T> & s) {
+            return (s == NULL);
+        }
+
+        template <typename T>
+        void init(struct_stack<T> & stack) {
+            stack = NULL;
+        }
+
+        template <typename T>
+        void deinit(struct_stack<T> & stack) {
+            while (!emptyp(stack))
+                pop(stack);
+        }
+
+        template <typename T>
+        retval push(T el, struct_stack<T> & stack) {
+            retval res;
+            auto * np = new node<T>;
+            if (np == NULL)
+                res = FAIL;
+            else {
+                np -> val = el;
+                np -> next = stack;
+                stack = np;
+                res = OK;
+            }
+            return res;
+        }
+
+        template <typename T>
+        retval top(T &el, const struct_stack<T> & stack) {
+            retval res;
+            if (emptyp(stack))
+                res = FAIL;
+            else {
+                el = stack -> val;
+                res = OK;
+            }
+            return res;
+        }
+
+        template <typename T>
+        retval pop(struct_stack<T> & stack) {
+            retval res;
+            if (emptyp(stack))
+                res=FAIL;
+            else {
+                node<T> *first = stack;
+                stack = stack -> next;
+                delete first;   // free memory
+                res=OK;
+            }
+            return res;
+        }
+
+        template <typename T>
+        int size(const struct_stack<T> & stack) {
+            int size = 0;
+            node<T> *p = stack;
+            while (p != NULL) {
+                size++;
+                p = p -> next;
+            }
+            return size;
+        }
+
+        template <typename T>
+        void print(const struct_stack<T> & stack) {
+            node<T> *p = stack;
+            while (p != NULL) {
+                std::cout << p -> val << " ";
+                p = p -> next;
+            }
+            std::cout << std::endl;
+        }
+
+        template <typename T>
+        void printBeautified(const struct_stack<T> & stack) {
+            node<T> *p = stack;
+            while (p != NULL) {
+                int length = std::to_string(p -> val).length();
+                std::cout << "┌" << strOp::repeat("─", length + 2) << "┐" << std::endl;
+                std::cout << "│" << strOp::padCenter(std::to_string(p -> val), length + 2) << "│" << std::endl;
+                std::cout << "└" << strOp::repeat("─", length + 2) << "┘" << std::endl;
+                p = p -> next;
+            }
+            std::cout << std::endl;
+        }
+        /** end: STRUCT STACK **/
+
+        /** start: STRUCT QUEUE **/
+        template <typename T>
+        static bool emptyp (const struct_queue<T> & Q) {
+            return (Q.head == NULL);
+        }
+
+        template <typename T>
+        void init(struct_queue<T> & q) {
+            q.head = NULL;
+            q.tail = NULL;
+        }
+
+        template <typename T>
+        void deinit(struct_queue<T> & q) {
+            while (!emptyp(q))
+                dequeue(q);
+        }
+
+        template <typename T>
+        retval enqueue(T el, struct_queue<T> & q) {
+            retval res;
+            auto * np = new node<T>;
+            if (np == NULL)
+                res = FAIL;
+            else {
+                np -> val = el;
+                np -> next = NULL;
+                if (emptyp(q))
+                    q.head = np;
+                else
+                    q.tail -> next = np;
+                q.tail = np;
+                res = OK;
+            }
+            return res;
+        }
+
+        template <typename T>
+        retval front(T &el, const struct_queue<T> & q) {
+            retval res;
+            if (emptyp(q))
+                res = FAIL;
+            else {
+                el = q.head -> val;
+                res = OK;
+            }
+            return res;
+        }
+
+        template <typename T>
+        retval dequeue(struct_queue<T> & q) {
+            retval res;
+            if (emptyp(q))
+                res = FAIL;
+            else {
+                node<T> *first = q.head;
+                q.head = q.head -> next;
+                if (q.head == NULL)
+                    q.tail = NULL;
+                delete first;   // free memory
+                res = OK;
+            }
+            return res;
+        }
+
+        template <typename T>
+        int size(const struct_queue<T> & q) {
+            int size = 0;
+            node<T> *p = q.head;
+            while (p != NULL) {
+                size++;
+                p = p -> next;
+            }
+            return size;
+        }
+
+        template <typename T>
+        void print(const struct_queue<T> & q) {
+            node<T> *p = q.head;
+            while (p != NULL) {
+                std::cout << p -> val << " ";
+                p = p -> next;
+            }
+            std::cout << std::endl;
+        }
+
+        template <typename T>
+        void printBeautified(const struct_queue<T> & q) {
+            node<T> *p = q.head;
+            while (p != NULL) {
+                int length = std::to_string(p -> val).length();
+                std::cout << "┌" << strOp::repeat("─", length + 2) << "┐" << " ";
+                p = p -> next;
+            }
+            std::cout << std::endl;
+            p = q.head;
+            while (p != NULL) {
+                int length = std::to_string(p -> val).length();
+                std::cout << "│" << strOp::padCenter(std::to_string(p -> val), length + 2) << "│" << " ";
+                p = p -> next;
+            }
+            std::cout << std::endl;
+            p = q.head;
+            while (p != NULL) {
+                int length = std::to_string(p -> val).length();
+                std::cout << "└" << strOp::repeat("─", length + 2) << "┘" << " ";
+                p = p -> next;
+            }
+            std::cout << std::endl;
+        }
+        /** end: STRUCT QUEUE **/
     }
 }

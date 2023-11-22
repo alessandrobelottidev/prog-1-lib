@@ -1,5 +1,8 @@
 #include <iostream>
+#include <fstream>
 #include "magic.hpp"
+
+#define AUTOMATED_TESTING 1
 
 using namespace std;
 using namespace magic;
@@ -14,11 +17,13 @@ int main() {
         debug::log("This is a log message inside a logBlock", debug::DEBUG);
     });
 
+
     debug::logBlock("Example usage of logAndCall", [] {
         debug::logAndCall("Calling Function:", "exampleFunction", exampleFunction, vector<string>{ "arg1", "arg2" });
     });
 
-    debug::logBlock("Operations on strings", []{
+
+    debug::logBlock("String operations", []{
         debug::log("To upper case: " + strOp::toUpperCase("Hello World!"), debug::DEBUG);
         debug::log("To lower case: " + strOp::toLowerCase("Hello World!"), debug::DEBUG);
         debug::log("Trim: " + strOp::trim("   Hello World!   "), debug::DEBUG);
@@ -42,87 +47,203 @@ int main() {
     });
 
 
-    // Example print matrix
-    debug::logBlock("PRINT, TRANSPOSE", []{
-        debug::log("Print matrix", debug::DEBUG);
-        matrix::Matrix<float> myMatrix(3,3);
+    debug::logBlock("Io operations", [] {
+        std::ifstream inputFile("../tests/io_ops_tests_input.txt");
 
-        for (int i = 0; i < myMatrix.rows; ++i)
-            for (int j = 0; j < myMatrix.cols; ++j)
-                myMatrix.set(i,j, (float) (i * myMatrix.cols + j));
+        if (AUTOMATED_TESTING && !inputFile.is_open()) {
+            debug::log("Could not open test file, run manually", debug::ERROR);
+            return;
+        }
 
-        myMatrix.print();
+        istream& is = AUTOMATED_TESTING ? inputFile : std::cin;
 
-        debug::log("Transpose matrix", debug::DEBUG);
-        matrix::transpose(myMatrix);
-        myMatrix.print();
+        struct Student {
+            int id;
+            string name;
+            float gpa;
+        };
+
+        debug::log("Read  a single student", debug::DEBUG);
+
+        Student student = {
+                io::read<int>(is, "Enter student id: "),
+                io::read<string>(is, "Enter student name: "),
+                io::read<float>(is, "Enter student gpa: ", "Invalid GPA", [](const float& gpa) {
+                    return gpa >= 0 && gpa <= 4;
+                })
+        };
+
+        debug::log("Student id: " + to_string(student.id), debug::DEBUG);
+        debug::log("Student name: " + student.name, debug::DEBUG);
+        debug::log("Student gpa: " + to_string(student.gpa), debug::DEBUG);
+
+        debug::log("Read a menu option", debug::DEBUG);
+
+        int option = io::showMenu("Menu", "Select an option: ", {
+                "Option 1",
+                "Option 2",
+                "Option 3"
+        }, is);
+
+        debug::log("Option selected: " + to_string(option), debug::DEBUG);
     });
 
 
-    debug::logBlock("Inverse of invalid matrix", []{
-        matrix::Matrix<float> myMatrix(3,3);
+    debug::logBlock("Matrix operations", []{
+        debug::logBlock("PRINT, TRANSPOSE", []{
+            debug::log("Print matrix", debug::DEBUG);
+            matrix::Matrix<float> myMatrix(3,3);
 
-        try {
-            debug::log("Matrix myMatrix");
+            for (int i = 0; i < myMatrix.rows; ++i)
+                for (int j = 0; j < myMatrix.cols; ++j)
+                    myMatrix.set(i,j, (float) (i * myMatrix.cols + j));
+
             myMatrix.print();
-            debug::log("Determinant of myMatrix is " + to_string(determinant(myMatrix)));
 
-            debug::log("Matrix newMatrix (inverse of myMatrix)");
-            matrix::Matrix<float> newMatrix = inverse(myMatrix);
-            newMatrix.print();
+            debug::log("Transpose matrix", debug::DEBUG);
+            matrix::transpose(myMatrix);
+            myMatrix.print();
+        });
 
-            debug::log("Checking that the inverse is correct");
-            matrix::Matrix<float> identity = dotProduct(myMatrix, newMatrix);
 
-            debug::log("Identity matrix");
-            identity.print();
-        } catch (std::runtime_error& e) {
-            debug::log(e.what(), debug::ERROR);
-        }
+        debug::logBlock("Inverse of invalid matrix", []{
+            matrix::Matrix<float> myMatrix(3,3);
+
+            try {
+                debug::log("Matrix myMatrix");
+                myMatrix.print();
+                debug::log("Determinant of myMatrix is " + to_string(determinant(myMatrix)));
+
+                debug::log("Matrix newMatrix (inverse of myMatrix)");
+                matrix::Matrix<float> newMatrix = inverse(myMatrix);
+                newMatrix.print();
+
+                debug::log("Checking that the inverse is correct");
+                matrix::Matrix<float> identity = dotProduct(myMatrix, newMatrix);
+
+                debug::log("Identity matrix");
+                identity.print();
+            } catch (std::runtime_error& e) {
+                debug::log(e.what(), debug::ERROR);
+            }
+        });
+
+
+        debug::logBlock("Inverse of valid matrix", [] {
+            try {
+                matrix::Matrix<float> m1(3,3, new float*[3]{
+                        new float[3]{1,0,0},
+                        new float[3]{0,1,0},
+                        new float[3]{0,0,1}
+                });
+
+                debug::log("Matrix m1");
+                m1.print();
+                debug::log("Determinant of m1 is " + to_string(determinant(m1)));
+
+                matrix::Matrix<float> m2(m1.rows, m1.cols);
+
+                debug::log("Matrix m2 (inverse of m1)");
+                m2 = inverse(m1);
+                m2.print();
+
+                debug::log("Checking that the inverse is correct");
+                matrix::Matrix<float> identity = dotProduct(m1, m2);
+
+                debug::log("Identity matrix");
+                identity.print();
+            } catch (std::runtime_error& e) {
+                debug::log(e.what(), debug::ERROR);
+            }
+        });
+
+
+        debug::logBlock("Usage of matrix of chars", [] {
+            matrix::Matrix<char> crossword(5, 5);
+
+            const char word[] = "HELLO";
+            for (int i = 0; i < sizeof(word) - 1; ++i)
+                crossword.set(4, i, word[i]);
+
+            for (int i = 0; i < sizeof(word) - 1; ++i)
+                crossword.set(i, 0, word[sizeof(word) - i - 2]);
+
+            crossword.print();
+        });
     });
 
 
-    debug::logBlock("Inverse of valid matrix", [] {
-        try {
-            matrix::Matrix<float> m1(3,3, new float*[3]{
-                    new float[3]{1,0,0},
-                    new float[3]{0,1,0},
-                    new float[3]{0,0,1}
-            });
+    debug::logBlock("Data structures", []{
+        debug::logBlock("STRUCT STACK", []{
+            ds::struct_stack<int> stack;
 
-            debug::log("Matrix m1");
-            m1.print();
-            debug::log("Determinant of m1 is " + to_string(determinant(m1)));
+            ds::init(stack);
 
-            matrix::Matrix<float> m2(m1.rows, m1.cols);
+            debug::log("Pushing 1, 2, 3, 4, 5 to stack", debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(1, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(2, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(3, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(4, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(5, stack)), debug::DEBUG);
 
-            debug::log("Matrix m2 (inverse of m1)");
-            m2 = inverse(m1);
-            m2.print();
+            debug::log("Stack size: " + to_string(size(stack)), debug::DEBUG);
 
-            debug::log("Checking that the inverse is correct");
-            matrix::Matrix<float> identity = dotProduct(m1, m2);
+            int topElement;
+            debug::log("Top element: " + to_string(top(topElement, stack)), debug::DEBUG);
 
-            debug::log("Identity matrix");
-            identity.print();
-        } catch (std::runtime_error& e) {
-            debug::log(e.what(), debug::ERROR);
-        }
+            // Print stack
+            debug::log("Stack: ", debug::DEBUG);
+            print(stack);
+            printBeautified(stack);
+
+            debug::log("Popping 5 elements from stack", debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+
+            debug::log("Stack size: " + to_string(size(stack)), debug::DEBUG);
+
+            ds::deinit(stack);
+        });
+
+        debug::logBlock("STRUCT QUEUE", []{
+            ds::struct_queue<int> queue;
+
+            ds::init(queue);
+
+            debug::log("Enqueueing 1, 2, 3, 4, 5 to queue", debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(1, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(2, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(3, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(4, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(5, queue)), debug::DEBUG);
+
+            debug::log("Queue size: " + to_string(size(queue)), debug::DEBUG);
+
+            int frontElement;
+            debug::log("Front element: " + to_string(front(frontElement, queue)), debug::DEBUG);
+
+            // Print queue
+            debug::log("Queue: ", debug::DEBUG);
+            print(queue);
+            printBeautified(queue);
+
+            debug::log("Dequeueing 5 elements from queue", debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+
+            debug::log("Queue size: " + to_string(size(queue)), debug::DEBUG);
+
+            ds::deinit(queue);
+        });
     });
 
-
-    debug::logBlock("Usage of matrix of chars", [] {
-        matrix::Matrix<char> crossword(5, 5);
-
-        const char word[] = "HELLO";
-        for (int i = 0; i < sizeof(word) - 1; ++i)
-            crossword.set(4, i, word[i]);
-
-        for (int i = 0; i < sizeof(word) - 1; ++i)
-            crossword.set(i, 0, word[sizeof(word) - i - 2]);
-
-        crossword.print();
-    });
+    io::clearScreen();
 
     return 0;
 }
