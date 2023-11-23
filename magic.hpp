@@ -1,9 +1,22 @@
 #ifndef MAGIC_H
 #define MAGIC_H
 
-#include <cstring>
+#include <iostream>
 #include <functional>
 #include <vector>
+
+// Type trait to check if a type is a standard type
+template <typename T>
+struct is_standard_type {
+    static constexpr bool value =
+            std::is_integral<T>::value ||
+            std::is_floating_point<T>::value ||
+            std::is_same<T, std::string>::value ||
+            std::is_same<T, char>::value ||
+            std::is_same<T, wchar_t>::value ||
+            std::is_same<T, char16_t>::value ||
+            std::is_same<T, char32_t>::value;
+};
 
 namespace magic {
     namespace debug {
@@ -114,7 +127,7 @@ namespace magic {
     }
 
     namespace ds {
-        enum retval {FAIL,OK};
+        enum status {FAIL, OK};
 
         template <typename T>
         struct node {
@@ -122,67 +135,15 @@ namespace magic {
             node *next;
         };
 
-        /** start: STRUCT STACK **/
-        template <typename T>
-        using struct_stack = node<T>*;
+        static const int dim = 4;
 
-        template <typename T>
-        void init(struct_stack<T> & stack);
-
-        template <typename T>
-        void deinit(struct_stack<T> & stack);
-
-        template <typename T>
-        retval push(T el, struct_stack<T> & stack);
-
-        template <typename T>
-        retval top(T &el, const struct_stack<T> & stack);
-
-        template <typename T>
-        retval pop(struct_stack<T> & stack);
-
-        template <typename T>
-        int size(const struct_stack<T> & stack);
-
-        template <typename T>
-        void print(const struct_stack<T> & stack);
-
-        template <typename T>
-        void printBeautified(const struct_stack<T> & stack);
-        /** end: STRUCT STACK **/
-
-        /** start: STRUCT QUEUE **/
-        template <typename T>
-        struct struct_queue
-        {
-            node<T> * tail;
-            node<T> * head;
-        };
-
-        template <typename T>
-        void init(struct_queue<T> & q);
-
-        template <typename T>
-        void deinit(struct_queue<T> & q);
-
-        template <typename T>
-        retval enqueue(T el, struct_queue<T> & q);
-
-        template <typename T>
-        retval front(T & el, const struct_queue<T> & q);
-
-        template <typename T>
-        retval dequeue(struct_queue<T> & q);
-
-        template <typename T>
-        int size(const struct_queue<T> & q);
-
-        template <typename T>
-        void print(const struct_queue<T> & q);
-
-        template <typename T>
-        void printBeautified(const struct_queue<T> & q);
-        /** end: STRUCT QUEUE **/
+        #include "ds/struct_stack.hpp"
+        #include "ds/struct_queue.hpp"
+        #include "ds/dynamic_array_stack.hpp"
+        #include "ds/static_array_stack.hpp"
+        #include "ds/dynamic_array_queue.hpp"
+        #include "ds/static_array_queue.hpp"
+        #include "ds/singly_linked_list.hpp"
     }
 }
 

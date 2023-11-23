@@ -2,17 +2,31 @@
 #include <fstream>
 #include "magic.hpp"
 
+#define TESTING 1
 #define AUTOMATED_TESTING 1
 
 using namespace std;
 using namespace magic;
+
+void exampleFunction(const vector<string>& args);
+
+void test();
+
+int main() {
+    if (TESTING) {
+        test();
+        return 0;
+    }
+
+    return 0;
+}
 
 void exampleFunction(const vector<string>& args) {
     if (args.size() >= 2)
         cout << "Example Function called with arguments: " << args[0] << " and " << args[1] << endl;
 }
 
-int main() {
+void test() {
     debug::logBlock("Example of logBlock", []{
         debug::log("This is a log message inside a logBlock", debug::DEBUG);
     });
@@ -208,6 +222,64 @@ int main() {
             ds::deinit(stack);
         });
 
+        debug::logBlock("DYNAMIC ARRAY STACK", []{
+            ds::dynamic_array_stack<int> stack;
+
+            debug::log("Pushing 1, 2, 3, 4, 5 to stack", debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(1, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(2, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(3, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(4, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(5, stack)), debug::DEBUG);
+
+            int topElement;
+            debug::log("Top element: " + to_string(top(topElement, stack)), debug::DEBUG);
+
+            // Print stack
+            debug::log("Stack: ", debug::DEBUG);
+            print(stack);
+
+            debug::log("Popping 5 elements from stack", debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+
+            // Print stack
+            debug::log("Stack: ", debug::DEBUG);
+            print(stack);
+        });
+
+        debug::logBlock("STATIC ARRAY STACK", []{
+            ds::static_array_stack<int> stack;
+
+            debug::log("Pushing 1, 2, 3, 4, 5 to stack", debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(1, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(2, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(3, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(4, stack)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push(5, stack)), debug::DEBUG);
+
+            int topElement;
+            debug::log("Top element: " + to_string(top(topElement, stack)), debug::DEBUG);
+
+            // Print stack
+            debug::log("Stack: ", debug::DEBUG);
+            print(stack);
+
+            debug::log("Popping 5 elements from stack", debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop(stack)), debug::DEBUG);
+
+            // Print stack
+            debug::log("Stack: ", debug::DEBUG);
+            print(stack);
+        });
+
         debug::logBlock("STRUCT QUEUE", []{
             ds::struct_queue<int> queue;
 
@@ -241,9 +313,108 @@ int main() {
 
             ds::deinit(queue);
         });
+
+        debug::logBlock("DYNAMIC ARRAY QUEUE", []{
+            ds::dynamic_array_queue<int> queue;
+
+            debug::log("Enqueueing 1, 2, 3, 4, 5 to queue", debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(1, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(2, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(3, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(4, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(5, queue)), debug::DEBUG);
+
+            int frontElement;
+            debug::log("Front element: " + to_string(front(frontElement, queue)), debug::DEBUG);
+
+            // Print queue
+            debug::log("Queue: ", debug::DEBUG);
+            print(queue);
+
+            debug::log("Dequeueing 5 elements from queue", debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+
+            // Print queue
+            debug::log("Queue: ", debug::DEBUG);
+            print(queue);
+
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+        });
+
+        debug::logBlock("STATIC ARRAY QUEUE", []{
+            ds::static_array_queue<int> queue;
+
+            debug::log("Enqueueing 1, 2, 3, 4, 5 to queue", debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(1, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(2, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(3, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(4, queue)), debug::DEBUG);
+            debug::log("Enqueued: " + to_string(enqueue(5, queue)), debug::DEBUG);
+
+            int frontElement;
+            debug::log("Front element: " + to_string(front(frontElement, queue)), debug::DEBUG);
+
+            // Print queue
+            debug::log("Queue: ", debug::DEBUG);
+            print(queue);
+
+            debug::log("Dequeueing 5 elements from queue", debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+
+            // Print queue
+            debug::log("Queue: ", debug::DEBUG);
+            print(queue);
+
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+            debug::log("Dequeued: " + to_string(dequeue(queue)), debug::DEBUG);
+        });
+
+        debug::logBlock("SINGLY LINKED LIST", []{
+            // use all the functions from singly_linked_list.ipp
+            ds::singly_linked_list<int> list;
+
+            debug::log("Pushing 1, 2, 3 to front of list", debug::DEBUG);
+            debug::log("Pushed to front: " + to_string(push_front(1, list)), debug::DEBUG);
+            debug::log("Pushed to front: " + to_string(push_front(2, list)), debug::DEBUG);
+            debug::log("Pushed to front: " + to_string(push_front(3, list)), debug::DEBUG);
+
+            debug::log("List size: " + to_string(size(list)), debug::DEBUG);
+
+            int frontElement;
+            debug::log("Front element: " + to_string(front(frontElement, list)), debug::DEBUG);
+
+            debug::log("List: ", debug::DEBUG);
+            print(list);
+
+            debug::log("Pushing 1, 2, 3 to list", debug::DEBUG);
+            debug::log("Pushed: " + to_string(push_back(1, list)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push_back(2, list)), debug::DEBUG);
+            debug::log("Pushed: " + to_string(push_back(3, list)), debug::DEBUG);
+
+            debug::log("List size: " + to_string(size(list)), debug::DEBUG);
+
+            int backElement;
+            debug::log("Back element: " + to_string(back(backElement, list)), debug::DEBUG);
+
+            debug::log("List: ", debug::DEBUG);
+            print(list);
+
+            debug::log("Popping 3 elements from list", debug::DEBUG);
+            debug::log("Popped: " + to_string(pop_front(list)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop_front(list)), debug::DEBUG);
+            debug::log("Popped: " + to_string(pop_front(list)), debug::DEBUG);
+
+            debug::log("List size: " + to_string(size(list)), debug::DEBUG);
+
+            debug::log("List: ", debug::DEBUG);
+            print(list);
+        });
     });
 
     io::clearScreen();
-
-    return 0;
 }
