@@ -40,6 +40,10 @@ namespace magic {
         void logBlock(const std::string& title, const std::function<void()>& codeBlock);
     }
 
+    namespace math {
+        bool * sieveOfEratosthenes(int n);
+    }
+
     namespace io {
         template <typename T>
         T read(std::istream& input = std::cin,

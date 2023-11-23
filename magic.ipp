@@ -71,6 +71,27 @@ namespace magic {
         }
     }
 
+    namespace math {
+        bool * sieveOfEratosthenes(int n) {
+            // Create a boolean array "isPrime[0..n]" and initialize all entries as true.
+            bool * isPrime = new bool[n + 1];
+            for (int i = 0; i < n + 1; ++i)
+                isPrime[i] = true;
+
+            for (int p = 2; p * p <= n; ++p) {
+                // If isPrime[p] is not changed, it's a prime.
+                if (isPrime[p]) {
+                    // Mark all multiples of p as non-prime.
+                    for (int i = p * p; i <= n; i += p) {
+                        isPrime[i] = false;
+                    }
+                }
+            }
+
+            return isPrime;
+        }
+    }
+
     namespace io {
         template <typename T>
         T read(std::istream& input,

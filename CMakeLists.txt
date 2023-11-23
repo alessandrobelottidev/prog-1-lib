@@ -10,3 +10,11 @@ add_executable(magic main.cpp
 add_executable(es1-2023-11-23 examples/esercitazioni-2023/11/23/es1.cpp
         magic.ipp
         magic.hpp)
+
+add_executable(es3-2023-11-23 examples/esercitazioni-2023/11/23/es3.cpp
+        magic.ipp
+        magic.hpp)
+
+add_executable(es4-2023-11-23 examples/esercitazioni-2023/11/23/es4.cpp
+        magic.ipp
+        magic.hpp)
