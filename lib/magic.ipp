@@ -4,6 +4,7 @@
 #include <vector>
 #include <limits>
 #include <iomanip>
+#include "magic.hpp"
 
 namespace magic {
     namespace debug {
@@ -124,6 +125,14 @@ namespace magic {
             } while (!isValid);
 
             return value;
+        }
+
+        template <typename T>
+        void writeArray(const std::string& title, T *arr, int n, std::ostream& output) {
+            output << title << std::endl;
+            for (int i = 0; i < n; ++i)
+                output << arr[i] << " ";
+            output << std::endl;
         }
 
         int showMenu(const std::string& title, const std::string& prompt, const std::vector<std::string>& options,
@@ -571,5 +580,273 @@ namespace magic {
         #include "ds/dynamic_array_queue.ipp"
         #include "ds/static_array_queue.ipp"
         #include "ds/singly_linked_list.ipp"
+    }
+
+    namespace algo {
+        template <typename T>
+        bool compare(const T& a, const T& b) {
+            return a > b;
+        }
+
+        template <typename T>
+        bool compareNodes(const ds::node<T>& a, const ds::node<T>& b) {
+            return a.val > b.val;
+        }
+
+        template <typename T>
+        void swap(T& a, T& b) {
+            T temp = a;
+            a = b;
+            b = temp;
+        }
+
+        template <typename T>
+        void swapNodes(ds::node<T> *a, ds::node<T> *b) {
+            T temp = a->val;
+            a->val = b->val;
+            b->val = temp;
+        }
+
+        template <typename T>
+        void bubbleSort(T *arr, int n, bool (*compare)(const T&, const T&)) {
+            bool swapped;
+            for (int i = 0; i < n - 1; ++i) {
+                swapped = false;
+                for (int j = 0; j < n - i - 1; ++j) {
+                    if (compare(arr[j], arr[j + 1])) {
+                        algo::swap(arr[j], arr[j + 1]);
+                        swapped = true;
+                    }
+                }
+                if (!swapped)
+                    break;
+            }
+        }
+
+        template <typename T>
+        void bubbleSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&)) {
+            bool swapped;
+            for (ds::node<T> * i = start; i != end; i = i->next) {
+                swapped = false;
+                for (ds::node<T> * j = start; j != end; j = j->next) {
+                    if (compareNodes(*j, *(j->next))) {
+                        swapNodes(j, j->next);
+                        swapped = true;
+                    }
+                }
+                if (!swapped)
+                    break;
+            }
+        }
+
+        template <typename T>
+        void insertionSort(T *arr, int n, bool (*compare)(const T&, const T&)) {
+            for (int i = 1; i < n; ++i) {
+                T key = arr[i];
+                int j = i - 1;
+                while (j >= 0 && compare(arr[j], key)) {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+        }
+
+        template <typename T>
+        void insertionSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&)) {
+            for (ds::node<T> * i = start->next; i != end->next; i = i->next) {
+                T key = i->val;
+                ds::node<T> * j = i->prev;
+                while (j != start->prev && compare(*(j->prev), key)) {
+                    j->next->val = j->val;
+                    j = j->prev;
+                }
+                j->next->val = key;
+            }
+        }
+
+        template <typename T>
+        void selectionSort(T *arr, int n, bool (*compare)(const T&, const T&)) {
+            for (int i = 0; i < n - 1; ++i) {
+                int minIndex = i;
+                for (int j = i + 1; j < n; ++j) {
+                    if (compare(arr[minIndex], arr[j])) {
+                        minIndex = j;
+                    }
+                }
+                if (minIndex != i) {
+                    swap(arr[i], arr[minIndex]);
+                }
+            }
+        }
+
+        template <typename T>
+        void selectionSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&)) {
+            for (ds::node<T> * i = start; i != end; i = i->next) {
+                ds::node<T> * min = i;
+                for (ds::node<T> * j = i->next; j != end->next; j = j->next) {
+                    if (compareNodes(*j, *min)) {
+                        min = j;
+                    }
+                }
+                if (min != i) {
+                    swapNodes(i, min);
+                }
+            }
+        }
+
+        template <typename T>
+        void merge(T *arr, int l, int m, int r, bool (*compare)(const T&, const T&)) {
+            int n1 = m - l + 1;
+            int n2 = r - m;
+
+            T *L = new T[n1];
+            T *R = new T[n2];
+
+            for (int i = 0; i < n1; ++i)
+                L[i] = arr[l + i];
+            for (int i = 0; i < n2; ++i)
+                R[i] = arr[m + 1 + i];
+
+            int i = 0;
+            int j = 0;
+            int k = l;
+
+            while (i < n1 && j < n2) {
+                if (compare(L[i], R[j])) {
+                    arr[k] = L[i];
+                    i++;
+                } else {
+                    arr[k] = R[j];
+                    j++;
+                }
+                k++;
+            }
+
+            while (i < n1) {
+                arr[k] = L[i];
+                i++;
+                k++;
+            }
+
+            while (j < n2) {
+                arr[k] = R[j];
+                j++;
+                k++;
+            }
+        }
+
+        template <typename T>
+        void merge(ds::node<T> * start, ds::node<T> * mid, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&)) {
+            ds::node<T> * left = start;
+            ds::node<T> * right = mid->next;
+
+            while (left != mid->next && right != end->next) {
+                if (compareNodes(*left, *right)) {
+                    left = left->next;
+                } else {
+                    ds::node<T> * temp = right;
+                    right = right->next;
+
+                    temp->prev->next = temp->next;
+                    if (temp->next != NULL)
+                        temp->next->prev = temp->prev;
+
+                    temp->next = left;
+                    temp->prev = left->prev;
+                    left->prev = temp;
+                    if (temp->prev != NULL)
+                        temp->prev->next = temp;
+
+                    left = temp;
+                }
+            }
+        }
+
+        template <typename T>
+        void mergeSort(T *arr, int l, int r, bool (*compare)(const T&, const T&)) {
+            if (l < r) {
+                int m = l + (r - l) / 2;
+
+                mergeSort(arr, l, m, compare);
+                mergeSort(arr, m + 1, r, compare);
+
+                merge(arr, l, m, r, compare);
+            }
+        }
+
+        template <typename T>
+        void mergeSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&)) {
+            if (start != end) {
+                ds::node<T> * mid = start;
+                for (ds::node<T> * i = start; i != end; i = i->next) {
+                    if (i->next != end)
+                        i = i->next;
+                    mid = mid->next;
+                }
+
+                mergeSort(start, mid, compare);
+                mergeSort(mid->next, end, compare);
+
+                merge(start, mid, end, compare);
+            }
+        }
+
+        template <typename T>
+        void quickSort(T *arr, int low, int high, bool (*compare)(const T&, const T&)) {
+            if (low < high) {
+                int pi = partition(arr, low, high, compare);
+
+                quickSort(arr, low, pi - 1, compare);
+                quickSort(arr, pi + 1, high, compare);
+            }
+        }
+
+        template <typename T>
+        void quickSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&)) {
+            if (start != end && start != end->next) {
+                ds::node<T> * pi = partition(start, end, compare);
+
+                quickSort(start, pi->prev, compare);
+                quickSort(pi->next, end, compare);
+            }
+        }
+
+        template <typename T>
+        int binarySearch(T *arr, int n, T target) {
+            int low = 0;
+            int high = n - 1;
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                if (arr[mid] == target)
+                    return mid;
+                else if (arr[mid] < target)
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+            return -1;
+        }
+
+        template <typename T>
+        int binarySearch(ds::node<T> * start, ds::node<T> * end, T target) {
+            int low = 0;
+            int high = 0;
+            for (ds::node<T> * i = start; i != end; i = i->next)
+                high++;
+            while (low <= high) {
+                int mid = low + (high - low) / 2;
+                ds::node<T> * temp = start;
+                for (int i = 0; i < mid; ++i)
+                    temp = temp->next;
+                if (temp->val == target)
+                    return mid;
+                else if (temp->val < target)
+                    low = mid + 1;
+                else
+                    high = mid - 1;
+            }
+            return -1;
+        }
     }
 }

@@ -1,32 +1,24 @@
 #include <iostream>
 #include <fstream>
-#include "magic.hpp"
-
+#include "../include/magic/magic.hpp"
 #define TESTING 1
-#define AUTOMATED_TESTING 1
+
 
 using namespace std;
 using namespace magic;
 
-void exampleFunction(const vector<string>& args);
+#define AUTOMATED_TESTING 1
 
-void test();
-
-int main() {
-    if (TESTING) {
-        test();
-        return 0;
-    }
-
-    return 0;
-}
 
 void exampleFunction(const vector<string>& args) {
-    if (args.size() >= 2)
-        cout << "Example Function called with arguments: " << args[0] << " and " << args[1] << endl;
+    debug::log("This is an example function", debug::DEBUG);
+    debug::log("Arguments: ", debug::DEBUG);
+    for (const string& arg : args)
+        debug::log(arg, debug::DEBUG);
 }
 
-void test() {
+
+int main() {
     debug::logBlock("Example of logBlock", []{
         debug::log("This is a log message inside a logBlock", debug::DEBUG);
     });
@@ -415,6 +407,161 @@ void test() {
             print(list);
         });
     });
+
+
+    debug::logBlock("Algorithms", []{
+        debug::logBlock("Bubblesort", []{
+            debug::log("Default sorting an array of integers", debug::DEBUG);
+            int arr[] = { 5, 4, 3, 2, 1 };
+            int n = sizeof(arr) / sizeof(arr[0]);
+
+            io::writeArray("Array before sorting: ", arr, n);
+            algo::bubbleSort(arr, n);
+            io::writeArray("Array after sorting: ", arr, n);
+
+
+            debug::log("Sorting an array of integers with custom comparison", debug::DEBUG);
+            int arr2[] = { 23, 65, 12, 3, 9, 1, 0, 5, 7, 8, 2, 4, 6, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20 };
+            n = sizeof(arr2) / sizeof(arr2[0]);
+
+            io::writeArray("Array before sorting: ", arr2, n);
+            algo::bubbleSort(arr2, n, *[](const int& a, const int& b) {
+                // Strange sort where even numbers are sorted in descending order and odd numbers are sorted in ascending order
+                if (a % 2 == 0 && b % 2 == 0)
+                    return a > b;
+                else if (a % 2 == 1 && b % 2 == 1)
+                    return a < b;
+                else
+                    return a < b;
+            });
+            io::writeArray("Array after sorting: ", arr2, n);
+
+            debug::log("Sorting an array of strings based on their length", debug::DEBUG);
+            string arr3[] = { "Hello", "World", "This", "Is", "A", "Test" };
+            n = sizeof(arr3) / sizeof(arr3[0]);
+
+            io::writeArray("Array before sorting: ", arr3, n);
+            algo::bubbleSort(arr3, n, *[](const string& a, const string& b) {
+                return a.length() > b.length();
+            });
+            io::writeArray("Array after sorting: ", arr3, n);
+
+
+            debug::log("Sorting a singly linked list of strings based on alphabetical order and then on length", debug::DEBUG);
+            ds::singly_linked_list<string> list;
+
+            for (int i = 0; i < n; ++i)
+                push_back(arr3[i], list);
+
+            debug::log("List before sorting: ", debug::DEBUG);
+            print(list);
+
+            algo::bubbleSort(list.head, list.tail, *[](const ds::node<string>& a, const ds::node<string>& b) {
+                if (a.val < b.val)
+                    return true;
+                else if (a.val > b.val)
+                    return false;
+                else
+                    return a.val.length() > b.val.length();
+            });
+
+            debug::log("List after sorting: ", debug::DEBUG);
+            print(list);
+
+            // Sort a list of integeres in ascending order but only up to a certain node (let's say the third)
+
+            ds::singly_linked_list<int> list2;
+
+            for (int i = 0; i < 10; ++i)
+                push_back(i, list2);
+
+            debug::log("List before sorting: ", debug::DEBUG);
+            print(list2);
+
+            algo::bubbleSort(list2.head, list2.head->next->next->next, *[](const ds::node<int>& a, const ds::node<int>& b) {
+                return a.val > b.val;
+            });
+
+            debug::log("List after sorting: ", debug::DEBUG);
+            print(list2);
+        });
+
+        debug::logBlock("Selection sort", []{
+            debug::log("Default sorting an array of integers", debug::DEBUG);
+            int arr[] = { 5, 4, 3, 2, 1 };
+            int n = sizeof(arr) / sizeof(arr[0]);
+
+            io::writeArray("Array before sorting: ", arr, n);
+            algo::selectionSort(arr, n);
+            io::writeArray("Array after sorting: ", arr, n);
+
+
+            debug::log("Sorting an array of integers with custom comparison", debug::DEBUG);
+            int arr2[] = { 23, 65, 12, 3, 9, 1, 0, 5, 7, 8, 2, 4, 6, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20 };
+            n = sizeof(arr2) / sizeof(arr2[0]);
+
+            io::writeArray("Array before sorting: ", arr2, n);
+            algo::selectionSort(arr2, n, *[](const int& a, const int& b) {
+                // Strange sort where even numbers are sorted in descending order and odd numbers are sorted in ascending order
+                if (a % 2 == 0 && b % 2 == 0)
+                    return a > b;
+                else if (a % 2 == 1 && b % 2 == 1)
+                    return a < b;
+                else
+                    return a < b;
+            });
+            io::writeArray("Array after sorting: ", arr2, n);
+
+            debug::log("Sorting an array of strings based on their length", debug::DEBUG);
+            string arr3[] = { "Hello", "World", "This", "Is", "A", "Test" };
+            n = sizeof(arr3) / sizeof(arr3[0]);
+
+            io::writeArray("Array before sorting: ", arr3, n);
+            algo::selectionSort(arr3, n, *[](const string& a, const string& b) {
+                return a.length() > b.length();
+            });
+            io::writeArray("Array after sorting: ", arr3, n);
+
+
+            debug::log("Sorting a singly linked list of strings based on alphabetical order and then on length", debug::DEBUG);
+            ds::singly_linked_list<string> list;
+
+            for (int i = 0; i < n; ++i)
+                push_back(arr3[i], list);
+
+            debug::log("List before sorting: ", debug::DEBUG);
+            print(list);
+
+            algo::selectionSort(list.head, list.tail, *[](const ds::node<string>& a, const ds::node<string>& b) {
+                if (a.val < b.val)
+                    return true;
+                else if (a.val > b.val)
+                    return false;
+                else
+                    return a.val.length() > b.val.length();
+            });
+
+            debug::log("List after sorting: ", debug::DEBUG);
+            print(list);
+
+            // Sort a list of integeres in ascending order but only up to a certain node (let's say the third)
+            ds::singly_linked_list<int> list2;
+
+            for (int i = 0; i < 10; ++i)
+                push_back(i, list2);
+
+            debug::log("List before sorting: ", debug::DEBUG);
+            print(list2);
+
+            algo::selectionSort(list2.head, list2.head->next->next->next, *[](const ds::node<int>& a, const ds::node<int>& b) {
+                return a.val > b.val;
+            });
+
+            debug::log("List after sorting: ", debug::DEBUG);
+            print(list2);
+        });
+    });
+
 
     io::clearScreen();
 }

@@ -1,5 +1,5 @@
-#ifndef MAGIC_H
-#define MAGIC_H
+#ifndef MAGIC_HPP
+#define MAGIC_HPP
 
 #include <iostream>
 #include <functional>
@@ -28,9 +28,9 @@ namespace magic {
         const std::string ANSI_BLUE = "\033[34m";
 
         enum LogLevel { DEBUG, INFO, WARNING, ERROR };
-        
+
         void log(const std::string& message, LogLevel level = DEBUG);
-        void registerFunction(const std::string& functionName, 
+        void registerFunction(const std::string& functionName,
                               std::function<void(const std::vector<std::string>&)> function);
         void callFunctionByName(const std::string& functionName, const std::vector<std::string>& arguments);
         void logAndCall(const std::string& title,
@@ -50,6 +50,9 @@ namespace magic {
                const std::string& prompt = "Enter a value: ",
                const std::string& errorMessage = "Invalid input",
                const std::function<bool(const T&)>& validate = [](const T&) { return true; });
+
+        template <typename T>
+        void writeArray(const std::string& title, T *arr, int n, std::ostream& output = std::cout);
 
         int showMenu(const std::string& title, const std::string& prompt, const std::vector<std::string>& options,
                      std::istream& input = std::cin);
@@ -136,7 +139,7 @@ namespace magic {
         template <typename T>
         struct node {
             T val;
-            node *next;
+            node<T> *next;
         };
 
         static const int dim = 4;
@@ -148,6 +151,86 @@ namespace magic {
         #include "ds/dynamic_array_queue.hpp"
         #include "ds/static_array_queue.hpp"
         #include "ds/singly_linked_list.hpp"
+    }
+
+    namespace algo {
+        template <typename T>
+        bool compare(const T& a, const T& b);
+
+        template <typename T>
+        bool compareNodes(const ds::node<T>& a, const ds::node<T>& b);
+
+        template <typename T>
+        void swap(T& a, T& b);
+
+        template <typename T>
+        void swapNodes(ds::node<T> *a, ds::node<T> *b);
+
+        /*
+         * Name: Bubble sort
+         * Time complexity: Ω(n), Θ(n^2), O(n^2)
+         * Space complexity: O(1)
+         */
+        template <typename T>
+        void bubbleSort(T *arr, int n, bool (*compare)(const T&, const T&) = algo::compare);
+
+        template <typename T>
+        void bubbleSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&) = algo::compareNodes);
+
+        /*
+         * Name: Insertion sort
+         * Time complexity: Ω(n), Θ(n^2), O(n^2)
+         * Space complexity: O(1)
+         */
+        template <typename T>
+        void insertionSort(T *arr, int n, bool (*compare)(const T&, const T&) = algo::compare);
+
+        template <typename T>
+        void insertionSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&) = algo::compareNodes);
+
+        /*
+         * Name: Selection sort
+         * Time complexity: Ω(n^2), Θ(n^2), O(n^2)
+         * Space complexity: O(1)
+         */
+        template <typename T>
+        void selectionSort(T *arr, int n, bool (*compare)(const T&, const T&) = algo::compare);
+
+        template <typename T>
+        void selectionSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&) = algo::compareNodes);
+
+        /*
+         * Name: Merge sort
+         * Time complexity: Ω(n log(n)), Θ(n log(n)), O(n log(n))
+         * Space complexity: O(n)
+         */
+        template <typename T>
+        void mergeSort(T *arr, int n, bool (*compare)(const T&, const T&) = algo::compare);
+
+        template <typename T>
+        void mergeSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&) = algo::compareNodes);
+
+        /*
+         * Name: Quick sort
+         * Time complexity: Ω(n log(n)), Θ(n log(n)), O(n^2)
+         * Space complexity: O(log(n))
+         */
+        template <typename T>
+        void quickSort(T *arr, int n, bool (*compare)(const T&, const T&) = algo::compare);
+
+        template <typename T>
+        void quickSort(ds::node<T> * start, ds::node<T> * end, bool (*compare)(const ds::node<T>&, const ds::node<T>&) = algo::compareNodes);
+
+        /*
+         * Name: Binary search
+         * Time complexity: Ω(1), Θ(log(n)), O(log(n))
+         * Space complexity: O(1)
+         */
+        template <typename T>
+        int binarySearch(T *arr, int n, T target);
+
+        template <typename T>
+        int binarySearch(ds::node<T> * start, ds::node<T> * end, T target);
     }
 }
 

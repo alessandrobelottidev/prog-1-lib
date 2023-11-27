@@ -21,9 +21,7 @@
 template <typename T>
 status push_front(T el, singly_linked_list<T> & list)
 {
-    node<T> * new_node = new node<T>;
-    new_node->val = el;
-    new_node->next = list.head;
+    node<T> * new_node = new node<T>{el, list.head};
     list.head = new_node;
     if (!list.tail) {
         list.tail = new_node;
@@ -34,9 +32,8 @@ status push_front(T el, singly_linked_list<T> & list)
 template <typename T>
 status push_back(T el, singly_linked_list<T> & list)
 {
-    node<T> * new_node = new node<T>;
-    new_node->val = el;
-    new_node->next = nullptr;
+    node<T> * new_node = new node<T>{el, nullptr};
+    
     if (!list.head) {
         list.head = new_node;
     }

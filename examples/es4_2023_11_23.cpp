@@ -1,11 +1,11 @@
-#include "../../../../magic.hpp"
+#include "../include/magic/magic.hpp"
 #include <fstream>
 
 using namespace std;
 using namespace magic;
 
 int main() {
-    ifstream inputFile("../examples/esercitazioni-2023/11/23/input2.txt");
+    ifstream inputFile("../examples/input2.txt");
 
     if (!inputFile.is_open()) {
         debug::log("Could not open input file", debug::ERROR);

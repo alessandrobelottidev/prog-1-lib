@@ -1,21 +1,11 @@
-#include "../../../../magic.hpp"
+#include "../include/magic/magic.hpp"
 #include <fstream>
 
 using namespace std;
 using namespace magic;
 
-void printInReverseRecursively(ds::node<string>* node) {
-    if (node == nullptr) {
-        return;
-    }
-
-    printInReverseRecursively(node->next);
-
-    cout << node->val << endl;
-}
-
 int main() {
-    ifstream inputFile("../examples/esercitazioni-2023/11/23/input.txt");
+    ifstream inputFile("../examples/input.txt");
 
     if (!inputFile.is_open()) {
         debug::log("Could not open input file", debug::ERROR);
@@ -33,7 +23,7 @@ int main() {
         ds::push_back(line, list);
     }
 
-    printInReverseRecursively(list.head);
+    ds::print(list);
 
     return 0;
 }
