@@ -4,6 +4,12 @@
 using namespace std;
 using namespace magic;
 
+/*
+ * Aggiungere una quarta e ultima funzione al programma:
+ * void primizzaLista(lista listaDiNumeri);
+ * che scorre la lista e rimuove tutti i numeri che non sono primi
+ */
+
 int main() {
     ifstream inputFile("../examples/input2.txt");
 

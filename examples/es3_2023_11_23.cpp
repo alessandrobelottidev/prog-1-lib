@@ -4,6 +4,12 @@
 using namespace std;
 using namespace magic;
 
+/*
+ * Aggiungere una terza funzione al programma:
+ * void stampaListaInvertita(lista listaDiNumeri);
+ * che stampa la lista in maniera invertita.
+ */
+
 void printInReverseRecursively(ds::node<string>* node) {
     if (node == nullptr) {
         return;

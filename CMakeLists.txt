@@ -27,6 +27,11 @@ set(EXAMPLE_FILES
         examples/es1_2023_11_23.cpp
         examples/es3_2023_11_23.cpp
         examples/es4_2023_11_23.cpp
+        examples/es1_2023_11_28.cpp
+        examples/es2_2023_11_28.cpp
+        examples/es3_2023_11_28.cpp
+        examples/es4_2023_11_28.cpp
+        examples/es5_2023_11_28.cpp
 )
 
 # Create example executables

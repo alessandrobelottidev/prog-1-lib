@@ -4,6 +4,10 @@
 using namespace std;
 using namespace magic;
 
+/*
+ * Scrivere un programma che, dato in input un file con un intero per
+ * riga, crea una lista concatenata con i numeri contenuti nel file
+ */
 int main() {
     ifstream inputFile("../examples/input.txt");
 
