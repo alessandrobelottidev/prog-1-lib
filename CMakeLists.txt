@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.26)
 project(magic LANGUAGES CXX)
 
+include_directories(external)
 include_directories(external/catch2)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -45,3 +46,5 @@ endforeach()
 # TODO: move all tests to multiple files
 add_executable(temp tests/tests.cpp)
 target_link_libraries(temp magic)
+
+add_executable(extract_examples tools/extract_examples.cpp)
