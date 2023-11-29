@@ -573,8 +573,8 @@ namespace magic {
     }
 
     namespace ds {
-        #include "ds/struct_queue.ipp"
-        #include "ds/struct_stack.ipp"
+        #include "ds/ll_queue.ipp"
+        #include "ds/ll_stack.ipp"
         #include "ds/dynamic_array_stack.ipp"
         #include "ds/static_array_stack.ipp"
         #include "ds/dynamic_array_queue.ipp"

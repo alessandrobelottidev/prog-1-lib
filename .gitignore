@@ -4,3 +4,4 @@
 cmake-build-debug/*
 cmake-build-debug
 cmake-build-debug/
+tests/tests.cpp

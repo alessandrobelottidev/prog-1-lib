@@ -9,7 +9,7 @@ using namespace magic;
  */
 
 int main() {
-    ds::struct_stack<int> stack;
+    ds::ll_stack<int> stack;
 
     ds::init(stack);
 
@@ -19,7 +19,7 @@ int main() {
 
     ds::print(stack);
 
-    ds::struct_queue<int> queue;
+    ds::ll_queue<int> queue;
 
     ds::init(queue);
 

@@ -1,21 +1,21 @@
 template <typename T>
-static bool emptyp (const struct_stack<T> & s) {
+static bool emptyp (const ll_stack<T> & s) {
     return (s == NULL);
 }
 
 template <typename T>
-void init(struct_stack<T> & stack) {
+void init(ll_stack<T> & stack) {
     stack = NULL;
 }
 
 template <typename T>
-void deinit(struct_stack<T> & stack) {
+void deinit(ll_stack<T> & stack) {
     while (!emptyp(stack))
         pop(stack);
 }
 
 template <typename T>
-status push(T el, struct_stack<T> & stack) {
+status push(T el, ll_stack<T> & stack) {
     status res;
     auto * np = new node<T>;
     if (np == NULL)
@@ -30,7 +30,7 @@ status push(T el, struct_stack<T> & stack) {
 }
 
 template <typename T>
-status top(T &el, const struct_stack<T> & stack) {
+status top(T &el, const ll_stack<T> & stack) {
     status res;
     if (emptyp(stack))
         res = FAIL;
@@ -42,7 +42,7 @@ status top(T &el, const struct_stack<T> & stack) {
 }
 
 template <typename T>
-status pop(struct_stack<T> & stack) {
+status pop(ll_stack<T> & stack) {
     status res;
     if (emptyp(stack))
         res=FAIL;
@@ -56,7 +56,7 @@ status pop(struct_stack<T> & stack) {
 }
 
 template <typename T>
-int size(const struct_stack<T> & stack) {
+int size(const ll_stack<T> & stack) {
     int size = 0;
     node<T> *p = stack;
     while (p != NULL) {
@@ -67,7 +67,7 @@ int size(const struct_stack<T> & stack) {
 }
 
 template <typename T>
-void print(const struct_stack<T> & stack) {
+void print(const ll_stack<T> & stack) {
     static_assert(is_standard_type<T>::value, "Non-standard type used in read function. Use standard types only.");
     node<T> *p = stack;
     while (p != NULL) {
@@ -78,7 +78,7 @@ void print(const struct_stack<T> & stack) {
 }
 
 template <typename T>
-void printBeautified(const struct_stack<T> & stack) {
+void printBeautified(const ll_stack<T> & stack) {
     static_assert(is_standard_type<T>::value, "Non-standard type used in read function. Use standard types only.");
     node<T> *p = stack;
     while (p != NULL) {

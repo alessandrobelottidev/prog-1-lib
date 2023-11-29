@@ -12,7 +12,7 @@ using namespace magic;
 int main() {
     std::string sequence = io::read<std::string>(std::cin, "Inserisci una sequenza di parentesti e ti diro se sono bilanciate: ");
 
-    ds::struct_stack<char> stack;
+    ds::ll_stack<char> stack;
 
     ds::init(stack);
 

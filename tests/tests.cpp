@@ -181,7 +181,7 @@ int main() {
 
     debug::logBlock("Data structures", []{
         debug::logBlock("STRUCT STACK", []{
-            ds::struct_stack<int> stack;
+            ds::ll_stack<int> stack;
 
             ds::init(stack);
 
@@ -273,7 +273,7 @@ int main() {
         });
 
         debug::logBlock("STRUCT QUEUE", []{
-            ds::struct_queue<int> queue;
+            ds::ll_queue<int> queue;
 
             ds::init(queue);
 

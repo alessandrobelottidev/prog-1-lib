@@ -1,22 +1,22 @@
 template <typename T>
-static bool emptyp (const struct_queue<T> & Q) {
+static bool emptyp (const ll_queue<T> & Q) {
     return (Q.head == NULL);
 }
 
 template <typename T>
-void init(struct_queue<T> & q) {
+void init(ll_queue<T> & q) {
     q.head = NULL;
     q.tail = NULL;
 }
 
 template <typename T>
-void deinit(struct_queue<T> & q) {
+void deinit(ll_queue<T> & q) {
     while (!emptyp(q))
         dequeue(q);
 }
 
 template <typename T>
-status enqueue(T el, struct_queue<T> & q) {
+status enqueue(T el, ll_queue<T> & q) {
     status res;
     auto * np = new node<T>;
     if (np == NULL)
@@ -35,7 +35,7 @@ status enqueue(T el, struct_queue<T> & q) {
 }
 
 template <typename T>
-status front(T &el, const struct_queue<T> & q) {
+status front(T &el, const ll_queue<T> & q) {
     status res;
     if (emptyp(q))
         res = FAIL;
@@ -47,7 +47,7 @@ status front(T &el, const struct_queue<T> & q) {
 }
 
 template <typename T>
-status dequeue(struct_queue<T> & q) {
+status dequeue(ll_queue<T> & q) {
     status res;
     if (emptyp(q))
         res = FAIL;
@@ -63,7 +63,7 @@ status dequeue(struct_queue<T> & q) {
 }
 
 template <typename T>
-int size(const struct_queue<T> & q) {
+int size(const ll_queue<T> & q) {
     int size = 0;
     node<T> *p = q.head;
     while (p != NULL) {
@@ -74,7 +74,7 @@ int size(const struct_queue<T> & q) {
 }
 
 template <typename T>
-void print(const struct_queue<T> & q) {
+void print(const ll_queue<T> & q) {
     static_assert(is_standard_type<T>::value, "Non-standard type used in read function. Use standard types only.");
     node<T> *p = q.head;
     while (p != NULL) {
@@ -85,7 +85,7 @@ void print(const struct_queue<T> & q) {
 }
 
 template <typename T>
-void printBeautified(const struct_queue<T> & q) {
+void printBeautified(const ll_queue<T> & q) {
     static_assert(is_standard_type<T>::value, "Non-standard type used in read function. Use standard types only.");
     node<T> *p = q.head;
     while (p != NULL) {

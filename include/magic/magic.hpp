@@ -142,10 +142,24 @@ namespace magic {
             node<T> *next;
         };
 
+        template <typename T>
+        struct dNode {
+            T val;
+            dNode<T> *prev;
+            dNode<T> *next;
+        };
+
+        template <typename T>
+        struct bNode {
+            T val;
+            bNode<T> *left;
+            bNode<T> *right;
+        };
+
         static const int dim = 4;
 
-        #include "ds/struct_stack.hpp"
-        #include "ds/struct_queue.hpp"
+        #include "ds/ll_stack.hpp"
+        #include "ds/ll_queue.hpp"
         #include "ds/dynamic_array_stack.hpp"
         #include "ds/static_array_stack.hpp"
         #include "ds/dynamic_array_queue.hpp"

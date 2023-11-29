@@ -17,8 +17,8 @@ int main() {
                                              "La parola deve essere di massimo 100 caratteri",
                                              [](std::string s) { return s.length() <= 100; });
 
-    ds::struct_stack<char> stack;
-    ds::struct_queue<char> queue;
+    ds::ll_stack<char> stack;
+    ds::ll_queue<char> queue;
 
     ds::init(stack);
     ds::init(queue);

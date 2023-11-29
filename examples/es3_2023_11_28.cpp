@@ -14,7 +14,7 @@ using namespace magic;
  */
 
 int main() {
-    ds::struct_queue<std::string> queue;
+    ds::ll_queue<std::string> queue;
 
     ds::init(queue);
 

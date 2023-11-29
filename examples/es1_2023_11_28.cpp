@@ -19,7 +19,7 @@ int main() {
 
     istream& is = inputFile;
 
-    ds::struct_stack<int> stack;
+    ds::ll_stack<int> stack;
 
     ds::init(stack);
 
