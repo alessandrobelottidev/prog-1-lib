@@ -1,0 +1,266 @@
+[
+  {
+    "name": "Fibonacci",
+    "description": "Scrivere un programma che, dato in input un valore intero n, stampi a video la successione di fibonacci fino all n-esima cifra.",
+    "date": "2023_10_3",
+    "slide": "6",
+    "es": "1",
+    "category": "math"
+  },
+  {
+    "name": "Serie π",
+    "description": "Scrivere un programma che calcoli il risultato della seguente serie che approssima il valore pi greco. Il limite superiore di questa serie (il valore N) viene dato dall'utente in input.",
+    "date": "2023_10_3",
+    "slide": "6",
+    "es": "2",
+    "category": "math"
+  },
+  {
+    "name": "Test di primalità",
+    "description": "Dato in input un numero intero (compreso tra 0 e 1000), scrivere un programma che ritorni a video se il numero inserito è primo. Nota: un numero viene definito primo quando è divisibile solo per se stesso e per il numero 1.",
+    "date": "2023_10_3",
+    "slide": "6",
+    "es": "3",
+    "category": "math"
+  },
+  {
+    "name": "Test di primalità esteso (tutti i primi fino ad n)",
+    "description": "Scrivere un programma che ritorni a video tutti i numeri interi primi compresi tra 1 e un limite superiore n. Il limite superiore n viene dato in input dall’utente. Nota: un numero viene definito primo quando è divisibile solo per se stesso e per il numero 1.",
+    "date": "2023_10_3",
+    "slide": "6",
+    "es": "4",
+    "category": "math"
+  },
+  {
+    "name": "ASCII Art (Piramide di asteristichi dispari)",
+    "description": "Scrivere un programma che disegni sul terminale un triangolo le cui righe devono essere composte da un numero dispari di asterischi. L’altezza di questo triangolo viene data in input dall'utente.\nA = 4\n   *\n  ***\n *****\n*******",
+    "date": "2023_10_3",
+    "slide": "6",
+    "es": "5",
+    "category": "io"
+  },
+  {
+    "name": "Conversione binario-decimale e vice-versa",
+    "description": "Scrivere un programma che dato in input un numero binario, stampi a video il suo corrispondente valore decimale e viceversa.",
+    "date": "2023_10_3",
+    "slide": "6",
+    "es": "6",
+    "category": "conversion"
+  },
+  {
+    "name": "Somma tra primi",
+    "description": "Scrivere un programma che, dato in input un numero dall'utente, ritorni a video se questo numero possa essere espresso come la somma di due numeri primi. Stampare anche i corrispondenti numeri primi a video.",
+    "date": "2023_10_5",
+    "slide": "7",
+    "es": "4",
+    "category": "math"
+  },
+  {
+    "name": "Inverti Cifre di un Numero",
+    "description": "Scrivere un programma che prenda in input un numero e stampi a video il numero invertito usando una procedura.",
+    "date": "2023_10_10",
+    "slide": "8",
+    "es": "3",
+    "category": "math,conversion"
+  },
+  {
+    "name": "Divisione custom (senza usare /)",
+    "description": "Dati in input due interi, scrivere un programma che faccia la divisione tramite una funzione; la funzione restituisce tramite valore di ritorno il quoziente e tramite parametro per riferimento il resto. In questo programma non si può usare il simbolo '/' per la divisione",
+    "date": "2023_10_12",
+    "slide": "9",
+    "es": "2",
+    "category": "math"
+  },
+  {
+    "name": "Converti eccessi di minuti o secondi",
+    "description": "Dati in input tre interi in tre variabili (secondi, minuti, ore), scrivere un programma che con una procedura converta un eventuale eccesso di secondi in minuti e un eventuale eccesso di minuti in ore. Usare a scelta passaggio di parametri per riferimento o puntatore.",
+    "date": "2023_10_12",
+    "slide": "9",
+    "es": "3",
+    "category": "io,time"
+  },
+  {
+    "name": "Swap v2 (scambia gli 8 bit meno significativi)",
+    "description": "Dati in input due interi (short), scrivere un programma che con una procedura scambi gli 8 bit meno significativi dei due numeri.",
+    "date": "2023_10_12",
+    "slide": "9",
+    "es": "agg",
+    "category": "bits"
+  },
+  {
+    "name": "Fattoriale ricorsivo",
+    "description": "Scrivere un programma che calcoli il fattoriale di un intero positivo tramite funzione ricorsiva.",
+    "date": "2023_10_17",
+    "slide": "10",
+    "es": "1",
+    "category": "math,recursive"
+  },
+  {
+    "name": "Divisione ricorsiva",
+    "description": "Scrivere un programma che calcoli la divisione di un intero tramite funzione ricorsiva.",
+    "date": "2023_10_17",
+    "slide": "10",
+    "es": "2",
+    "category": "math,recursive"
+  },
+  {
+    "name": "Stampa di un numero in binario ricorsivamente",
+    "description": "Scrivere un programma che prenda in input un numero e ne stampi a video la rappresentazione binaria tramite procedura ricorsiva.",
+    "date": "2023_10_17",
+    "slide": "10",
+    "es": "3",
+    "category": "bits,recursive"
+  },
+  {
+    "name": "Controllo palindromo di un numero ricorsivamente",
+    "description": "Scrivere un programma che, preso in input un numero intero, controlli se il numero è un palindromo. Scrivere una funzione ricorsiva che faccia il controllo.",
+    "date": "2023_10_17",
+    "slide": "10",
+    "es": "4",
+    "category": "recursive"
+  },
+  {
+    "name": "Somma delle cifre",
+    "description": "Scrivere una funzione ricorsiva che, dato in input un numero intero, ritorni la somma delle cifre che compongono il numero intero.",
+    "date": "2023_10_17",
+    "slide": "10",
+    "es": "5",
+    "category": "math,recursive"
+  },
+  {
+    "name": "Calcola potenza ricorsivamente",
+    "description": "Scrivere una funzione che, dato in input due interi, base ed esponente, calcoli la potenza in modo ricorsivo.",
+    "date": "2023_10_17",
+    "slide": "11",
+    "es": "1",
+    "category": "math,recursive"
+  },
+  {
+    "name": "MCD, Massimo Comune Divisore ricorsivo",
+    "description": "Scrivere un programma che prenda in input due interi e calcoli il Massimo Comune Divisore (MCD) tramite funzione ricorsiva usando l'algoritmo di Euclide. MCD(m, n) = MCD(n, m % n), given that m > n",
+    "date": "2023_10_17",
+    "slide": "11",
+    "es": "2",
+    "category": "math,recursive"
+  },
+  {
+    "name": "Fattorizzazione in numeri primi",
+    "description": "Scrivere una procedura che fattorizzi in primi un dato numero intero tramite ricorsione. E' possibile definire delle funzioni ausiliarie (e.g., una funzione che computi se un numero è primo). Se possibile, le funzioni ausiliarie devono essere ricorsive loro stesse.",
+    "date": "2023_10_17",
+    "slide": "11",
+    "es": "4",
+    "category": "math,recursive"
+  },
+  {
+    "name": "Tower of Hanoi",
+    "description": "Tower of Hanoi is a mathematical puzzle where we have three rods and n disks. The objective of the puzzle is to move the entire stack to another rod, obeying the following simple rules: 1) Only one disk can be moved at a time. 2) Each move consists of taking the upper disk from one of the stacks and placing it on top of another stack i.e. a disk can only be moved if it is the uppermost disk on a stack. 3) No disk may be placed on top of a smaller disk.",
+    "date": "2023_10_17",
+    "slide": "11",
+    "es": "5",
+    "category": "algo,recursive"
+  },
+  {
+    "name": "Somma di triangolo superiore matrice",
+    "description": "Scrivere un programma che dichiari e poi inizializzi (con valori random) una matrice quadrata di interi, la stampi a video, calcoli la somma degli elementi nel triangolo superiore della matrice e la stampi a video.",
+    "date": "2023_10_31",
+    "slide": "14",
+    "es": "3",
+    "category": "matrix,math"
+  },
+  {
+    "name": "Filtro medio di una matrice",
+    "description": "Una tecnica che spesso si applica ai dati contenuti in una matrice consiste nel sostituire a ciascun elemento della matrice la media degli elementi che lo circondano. Tale tecnica è detta filtro medio. In un filtro medio, ciascun elemento della matrice è sostituito dalla media dei quattro elementi che si trovano sopra, sotto, a destra e a sinistra dell'elemento specificato. Ad esempio, data la matrice A qui sotto, la matrice B è il risultato dell'applicazione del filtromediano semplificato alla matrice A:\nSi scriva una funzione che riceva in input una matrice di numeri reali A di 10 righe e 10 colonne e una matrice di numeri reali B delle stesse dimensioni di A. La funzione assegnerà a ogni elemento della matrice B la media degli elementi che si trovano sopra, sotto, a destra e a sinistraScrivere un programma che dichiari e poi inizializzi (con valori random) una matrice quadrata di interi, la stampi a video, calcoli la somma degli elementi nel triangolo superiore della matrice e la stampi a video. dell'elemento corrispondente della matrice A. Si testi la funzione tramite un main opportuno, che inizializza A con numeri random compresi tra 0 e 9.",
+    "date": "2023_10_31",
+    "slide": "14",
+    "es": "4",
+    "category": "matrix,math"
+  },
+  {
+    "name": "Sabbie mobili (trovare una path in base a regole custom)",
+    "description": "Rappresentiamo una palude con una matrice che contiene solo 0 e 1, in cui 1 rappresenta terraferma, mentre 0 rappresenta sabbie mobili in cui si sprofonda. \nScrivere una programma che, data la mappa di una palude (ovvero una matrice di 0 e 1), cerca un percorso per attraversarla su terraferma e, se tale percorso esiste, lo visualizza tramite un array che contiene i passi fatti su terraferma e una matrice che codifica terraferma con '*' e sabbie mobili con '-'. \nPiù specificatamente: \n• Si cerchi un percorso da sinistra a destra, cioè dalla colonna 0 alla colonna (colonna-1); \n• Sono possibili solo movimenti in avanti, cioè partendo dalla posizione (riga, colonna) ci si può spostare in: \n(riga-1, colonna+1) (solo se la riga non è la prima) \n(riga, colonna+1) \n(riga+1, colonna+1) (solo se la riga non è l’ultima) \n• Si memorizzi l’eventuale percorso di attraversamento in un array i cui elementi sono gli indici delle righe corrispondenti ad ogni passo del percorso.",
+    "date": "2023_10_31",
+    "slide": "14",
+    "es": "5",
+    "category": "matrix,algo"
+  },
+  {
+    "name": "Concatena due array ordinati in un array dinamico ordinato",
+    "description": "Si scriva la funzione append che concateni due array di numeri interi ordinati in senso crescente. La funzione riceve come parametri i puntatori a due array di numeri interi pa e pb e le loro dimensioni na e nb (due numeri interi) e restituisce come valore di ritorno il puntatore a un array di numeri interi. Si suppone che gli array puntati da pa e pb siano già ordinati in senso crescente. La funzione allocherà dinamicamente un array di (na + nb) elementi e vi copierà gli elementi degli array puntati da pa e pb in modo tale che l'array risultante sia a sua volta ordinato in senso crescente. La funzione restituirà infine il  puntatore all'array risultante. Sarà responsabilità del programma chiamante deallocare la memoria allocata dalla funzione. \nSi scriva quindi un programma C++ per verificare il corretto funzionamento della funzione. Il programma chiederà all'utente di immettere da tastiera le dimensioni nx e ny di due array di numeri interi, allocherà dinamicamente gli array e chiederà all'utente di inserire i valori per entrambi gli array. Il programma utilizzerà quindi l'algoritmo BubbleSort per ordinare entrambi gli array, chiamerà la funzione append e stamperà a video l'array concatenato risultante.",
+    "date": "2023_11_14",
+    "slide": "16",
+    "es": "4",
+    "category": "pointers,algo"
+  },
+  {
+    "name": "Riconosci email presenti in un file di testo",
+    "description": "Scrivere un programma che, preso in input un file, legga le parole in esso contenute (massimo 255 lettere) e stampi a video le parole che possono essere potenzialmente un indirizzo email. Utilizzare le funzioni della libreria fstream",
+    "date": "2023_11_21",
+    "slide": "18",
+    "es": "3",
+    "category": "algo"
+  },
+  {
+    "name": "Crea lista da file",
+    "description": "Scrivere un programma che, dato in input un file con un intero per riga, crea una lista concatenata con i numeri contenuti nel file",
+    "date": "2023_11_23",
+    "slide": "19",
+    "es": "1",
+    "category": "ds"
+  },
+  {
+    "name": "Stampa lista invertita",
+    "description": "Stampa lista invertita",
+    "date": "2023_11_23",
+    "slide": "19",
+    "es": "3",
+    "category": "ds"
+  },
+  {
+    "name": "Primizza Lista (rendi una lista di soli primi)",
+    "description": "Scorri la lista e rimuovi tutti i numeri che non sono primi.",
+    "date": "2023_11_23",
+    "slide": "19",
+    "es": "4",
+    "category": "ds"
+  },
+  {
+    "name": "Crea un nuovo file con ogni riga invertita con uno stack",
+    "description": "Scrivere un programma che prenda in ingresso un file con un intero per riga e lo copi su un altro file con le righe in ordine inverso",
+    "date": "2023_11_28",
+    "slide": "20",
+    "es": "1",
+    "category": "ds"
+  },
+  {
+    "name": "Controlla bilanciamento di parentesi (()()) con uno stack",
+    "description": "scrivere un programma che legge una sequenza di caratteri in input dall'utente e determina se le parentesi sono “bilanciate” usando uno stack",
+    "date": "2023_11_28",
+    "slide": "20",
+    "es": "2",
+    "category": "ds"
+  },
+  {
+    "name": "Simulatore gestionale coda alle poste con una queue",
+    "description": "Scrivere un programma che simuli l'arrivo e lo smaltimento di una coda all'ufficio postale. Gli elementi della coda sono i nomi delle persone. Il main sarà un menù con tre opzioni: (1) aggiungi persona, (2) smaltisci persona, (3) stampa situazione corrente. Non sono ammessi omonimi nella coda.",
+    "date": "2023_11_28",
+    "slide": "20",
+    "es": "3",
+    "category": "ds"
+  },
+  {
+    "name": "Inverti pila con una coda (inverti elementi nello stack)",
+    "description": "Scrivere un programma che inverta gli elementi di una pila usando una coda.",
+    "date": "2023_11_28",
+    "slide": "20",
+    "es": "4",
+    "category": "ds"
+  },
+  {
+    "name": "Controlla che una parola sia palindroma (con uno stack e queue)",
+    "description": "Scrivere un programma che, data una parola in input (massimo 100 caratteri), dica se è palindroma oppure no usando una pila e/o una coda. Nota: non potete sfruttare la conoscenza della lunghezza della parola (non potete nemmeno calcolarla)",
+    "date": "2023_11_28",
+    "slide": "20",
+    "es": "5",
+    "category": "ds"
+  }
+]
